@@ -1,0 +1,35 @@
+module.exports = {
+  // APP
+  SMAPIHOST: process.env.SMAPIHOST || 'http://localhost',
+  SMAPIPORT: process.env.SMAPIPORT || 3001,
+  SMAPIPATH: process.env.SMAPIPATH || '/api',
+  ENVIRONMENT_NAME: process.env.ENVIRONMENT_NAME || 'local',
+  AV_SCANNING_ENABLED: process.env.AV_SCANNING_ENABLED || false,
+  // DB
+  PGHOST: process.env.PGHOST || 'localhost',
+  PGDATABASE: process.env.PGDATABASE || 'work',
+  PGUSER: process.env.PGUSER || 'app',
+  PGPASSWORD: process.env.PGPASSWORD || 'app',
+  PGKNEXUSER: process.env.PGKNEXUSER || 'migrator',
+  PGKNEXPASSWORD: process.env.PGKNEXPASSWORD || 'migrator',
+  PGREPORTINGUSER: process.env.PGREPORTINGUSER || 'reporting',
+  PGPORT: process.env.PGPORT || 5432,
+  PGMAXPOOLSIZE: Number(process.env.PGMAXPOOLSIZE) || 10,
+  // COGNITO
+  AWSREGION: process.env.AWSREGION,
+  COGNITOUSERPOOLID: process.env.COGNITOUSERPOOLID,
+  COGNITOWEBCLIENTID: process.env.COGNITOWEBCLIENTID,
+  COGNITOTESTPLANNER: process.env.COGNITOTESTPLANNER,
+  COGNITOTESTPLANNERPASSWORD: process.env.COGNITOTESTPLANNERPASSWORD,
+  COGNITOTESTHA: process.env.COGNITOTESTHA,
+  COGNITOTESTHAPASSWORD: process.env.COGNITOTESTHAPASSWORD,
+  COGNITOTESTLIHA: process.env.COGNITOTESTLIHA,
+  COGNITOTESTLIHAPASSWORD: process.env.COGNITOTESTLIHAPASSWORD,
+  PGSSL: process.env.PGSSL || false,
+  // S3
+  FILE_UPLOAD_BUCKET: process.env.FILE_UPLOAD_BUCKET,
+  // Metrics
+  METRICSPORT: process.env.METRICSPORT || '4000',
+  // LOGGING
+  LOG_LEVEL: process.env.LOG_LEVEL || 'WARN'
+}
