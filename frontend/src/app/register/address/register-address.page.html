@@ -1,0 +1,27 @@
+<ion-content padding>
+    <ion-icon name="close" id="close" [routerLink]="['/register/details']"></ion-icon>
+
+    <h2 padding>Step 2/3: Enter your address</h2>
+
+    <ion-item>
+      <ion-input required type="number" placeholder="House number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input required type="text" placeholder="Address line 1"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input required type="text" placeholder="Address line 2"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input required type="text" placeholder="City"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input required type="text" placeholder="Postcode"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" [routerLink]="['/register/club']">Save and continue</ion-button>
+  </ion-content>
