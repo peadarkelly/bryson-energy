@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { PasswordMatcher } from '../passwordMatcher'
 
 @Component({
   selector: 'app-register-details',
@@ -16,13 +17,16 @@ export class RegisterDetailsPage implements OnInit {
 
   ngOnInit() {
     this.detailsForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      surname: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      contact: new FormControl('', Validators.required),
-    })
+      firstName: new FormControl(null, Validators.required),
+      surname: new FormControl(null, Validators.required),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl(),
+      contact: new FormControl(null, Validators.required),
+    }, {
+      validators: PasswordMatcher.MatchPassword,
+      updateOn: 'blur' }
+    )
   }
 
   submit(): void {
@@ -35,4 +39,5 @@ export class RegisterDetailsPage implements OnInit {
     this.navCtrl.navigateForward('/register/address')
   }
 
+  get f() { return this.detailsForm.controls }
 }

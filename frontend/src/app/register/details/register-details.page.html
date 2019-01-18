@@ -4,35 +4,75 @@
   <h2 padding>Step 1/3: Enter your details</h2>
 
   <form [formGroup]="detailsForm" (ngSubmit)="submit()">
-    <ion-item>
-      <ion-label position="floating">First name</ion-label>
-      <ion-input formControlName="firstName" required type="text"></ion-input>
-    </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Surname</ion-label>
-      <ion-input formControlName="surname" required type="text"></ion-input>
-    </ion-item>
+    <div [class.invalid-input]="submitted && f.firstName.errors">
+      <div *ngIf="submitted && f.firstName.errors" class="error-message">
+        <span *ngIf="submitted && f.firstName.errors.required">You must supply a first name</span>
+      </div>
 
-    <ion-item>
-      <ion-label position="floating">Email address</ion-label>
-      <ion-input formControlName="email" required type="email"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">First name</ion-label>
+        <ion-input formControlName="firstName" required type="text"></ion-input>
+      </ion-item>
+    </div>
 
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input formControlName="password" required type="password"></ion-input>
-    </ion-item>
+    <div [class.invalid-input]="submitted && f.surname.errors">
+      <div *ngIf="submitted && f.surname.errors" class="error-message">
+        <span *ngIf="submitted && f.surname.errors.required">You must supply a surname</span>
+      </div>
 
-    <ion-item>
-      <ion-label position="floating">Confirm password</ion-label>
-      <ion-input formControlName="confirmPassword" required type="password"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="floating">Surname</ion-label>
+        <ion-input formControlName="surname" required type="text"></ion-input>
+      </ion-item>
+    </div>
 
-    <ion-item>
-      <ion-label position="floating">Contact number</ion-label>
-      <ion-input formControlName="contact" required type="number"></ion-input>
-    </ion-item>
+    <div [class.invalid-input]="submitted && f.email.errors">
+      <div *ngIf="submitted && f.email.errors" class="error-message">
+        <span *ngIf="submitted && f.email.errors.required">You must supply an email address</span>
+        <span *ngIf="submitted && f.email.errors.email">You must supply a valid email address</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Email address</ion-label>
+        <ion-input formControlName="email" required type="text"></ion-input>
+      </ion-item>
+    </div>
+
+    <div [class.invalid-input]="submitted && f.password.errors">
+      <div *ngIf="submitted && f.password.errors" class="error-message">
+        <span *ngIf="submitted && f.password.errors.required">You must supply a password</span>
+        <span *ngIf="submitted && f.password.errors.minlength">Your password must be at least 8 characters</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" required type="password"></ion-input>
+      </ion-item>
+    </div>
+
+    <div [class.invalid-input]="submitted && f.confirmPassword.errors">
+      <div *ngIf="submitted && f.confirmPassword.errors" class="error-message">
+        <span *ngIf="submitted && f.confirmPassword.errors.required">You must confirm your password</span>
+        <span *ngIf="submitted && f.confirmPassword.errors.matchPassword">Passwords do not match</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Confirm password</ion-label>
+        <ion-input formControlName="confirmPassword" required type="password"></ion-input>
+      </ion-item>
+    </div>
+
+    <div [class.invalid-input]="submitted && f.contact.errors">
+      <div *ngIf="submitted && f.contact.errors" class="error-message">
+        <span *ngIf="submitted && f.contact.errors.required">You must supply a contact number</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Contact number</ion-label>
+        <ion-input formControlName="contact" required type="tel"></ion-input>
+      </ion-item>
+    </div>
 
     <ion-button type="submit" expand="block">Save and continue</ion-button>
   </form>

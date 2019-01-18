@@ -20,3 +20,13 @@
   font-size: 40px;
 }
 
+.invalid-input {
+  border-left: 5px solid var(--ion-color-danger);
+
+  .error-message {
+    font-size: 14px;
+    padding-left: 16px;
+    margin-top: 5px;
+    color: var(--ion-color-danger);
+  }
+}
