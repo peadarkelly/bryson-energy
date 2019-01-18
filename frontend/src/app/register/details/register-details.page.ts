@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from '@ionic/angular'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-register-details',
@@ -8,25 +9,29 @@ import { NavController } from '@ionic/angular'
 })
 export class RegisterDetailsPage implements OnInit {
 
-  firstName: string
-  surname: string
-  email: string
-  password: string
-  confirmPassword: string
-  contact: string
+  detailsForm: FormGroup
+  submitted = false
 
   constructor(private navCtrl: NavController) { }
 
   ngOnInit() {
+    this.detailsForm = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      surname: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      contact: new FormControl('', Validators.required),
+    })
   }
 
   submit(): void {
-    console.log(this.firstName)
-    console.log(this.surname)
-    console.log(this.email)
-    console.log(this.password)
-    console.log(this.confirmPassword)
-    console.log(this.contact)
+    this.submitted = true
+
+    if (this.detailsForm.invalid) {
+      return
+    }
+
     this.navCtrl.navigateForward('/register/address')
   }
 
