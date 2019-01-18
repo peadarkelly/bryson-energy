@@ -1,15 +1,32 @@
 <ion-content padding>
   <img id="login-logo" class="center" src="assets/icon/logo-navy.png"/>
 
-  <ion-item>
-    <ion-input [(ngModel)]="email" required type="text" placeholder="Email address"></ion-input>
-  </ion-item>
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <div [class.invalid-input]="submitted && f.email.errors">
+      <div *ngIf="submitted && f.email.errors" class="error-message">
+        <span *ngIf="submitted && f.email.errors.required">You must supply an email address</span>
+        <span *ngIf="submitted && f.email.errors.email">You must supply a valid email address</span>
+      </div>
 
-  <ion-item>
-    <ion-input [(ngModel)]="password" required type="password" placeholder="Password"></ion-input>
-  </ion-item>
+      <ion-item>
+        <ion-label position="floating">Email address</ion-label>
+        <ion-input formControlName="email" required type="text"></ion-input>
+      </ion-item>
+    </div>
 
-  <ion-button (click)="submit()" expand="block">Sign in</ion-button>
+    <div [class.invalid-input]="submitted && f.password.errors">
+      <div *ngIf="submitted && f.password.errors" class="error-message">
+        <span *ngIf="submitted && f.password.errors.required">You must supply a password</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input formControlName="password" required type="password"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-button (click)="submit()" type="submit" expand="block">Sign in</ion-button>
+  </form>
 
   <ion-button href="/register/details" routerDirection="forward" fill="clear" id="sign-up" class="center">Sign up for free</ion-button>
 </ion-content>

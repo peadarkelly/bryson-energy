@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core'
+import { NavController } from '@ionic/angular'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-login',
@@ -7,17 +9,29 @@ import { Component, OnInit } from '@angular/core'
 })
 export class LoginPage implements OnInit {
 
-  email: string
-  password: string
+  submitted = false
+  loginForm: FormGroup
 
-  constructor() { }
+  constructor(private navCtrl: NavController) { }
 
   ngOnInit() {
+    this.loginForm = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required])
+    }, {
+      updateOn: 'blur'
+    })
   }
 
   submit(): void {
-    console.log(this.email)
-    console.log(this.password)
+    this.submitted = true
+
+    if (this.loginForm.invalid) {
+      return
+    }
+
+    this.navCtrl.navigateForward('/tabs')
   }
 
+  get f() { return this.loginForm.controls }
 }

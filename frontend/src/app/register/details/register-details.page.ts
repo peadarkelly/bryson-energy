@@ -22,11 +22,11 @@ export class RegisterDetailsPage implements OnInit {
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
       confirmPassword: new FormControl(),
-      contact: new FormControl(null, Validators.required),
+      contact: new FormControl(null, Validators.required)
     }, {
       validators: PasswordMatcher.MatchPassword,
-      updateOn: 'blur' }
-    )
+      updateOn: 'blur'
+    })
   }
 
   submit(): void {
