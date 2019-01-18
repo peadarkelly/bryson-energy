@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { NavController } from '@ionic/angular'
 
 @Component({
   selector: 'app-register-club',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterClubPage implements OnInit {
 
-  constructor() { }
+  constructor(private navCtrl: NavController) { }
 
   ngOnInit() {
+  }
+
+  submit(): void {
+    this.navCtrl.navigateRoot('/tabs')
   }
 
 }

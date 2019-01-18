@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { NavController } from '@ionic/angular'
 
 @Component({
   selector: 'app-register-address',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterAddressPage implements OnInit {
 
-  constructor() { }
+  houseNumber: number
+  address1: string
+  address2: string
+  city: string
+  postcode: string
+
+  constructor(private navCtrl: NavController) { }
 
   ngOnInit() {
+  }
+
+  submit(): void {
+    console.log(this.houseNumber)
+    console.log(this.address1)
+    console.log(this.address2)
+    console.log(this.city)
+    console.log(this.postcode)
+    this.navCtrl.navigateForward('/register/club')
   }
 
 }

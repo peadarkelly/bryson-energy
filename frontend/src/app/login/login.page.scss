@@ -9,4 +9,8 @@ ion-item {
 
 ion-button {
   margin: 50px auto;
+
+  &#sign-up {
+    text-decoration: underline
+  }
 }

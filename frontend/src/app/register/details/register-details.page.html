@@ -1,31 +1,31 @@
 <ion-content padding>
-  <ion-icon name="close" id="close" [routerLink]="['/login']"></ion-icon>
+  <ion-back-button defaultHref="/login" icon="close" text="" color="secondary" id="close"></ion-back-button>
 
   <h2 padding>Step 1/3: Enter your details</h2>
 
   <ion-item>
-    <ion-input required type="text" placeholder="First name"></ion-input>
+    <ion-input [(ngModel)]="firstName" required type="text" placeholder="First name"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-input required type="text" placeholder="Surname"></ion-input>
+    <ion-input [(ngModel)]="surname" required type="text" placeholder="Surname"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-input required type="email" placeholder="Email address"></ion-input>
+    <ion-input [(ngModel)]="email" required type="email" placeholder="Email address"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-input required type="password" placeholder="Password"></ion-input>
+    <ion-input [(ngModel)]="password" required type="password" placeholder="Password"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-input required type="password" placeholder="Confirm password"></ion-input>
+    <ion-input [(ngModel)]="confirmPassword" required type="password" placeholder="Confirm password"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-input required type="number" placeholder="Contact number"></ion-input>
+    <ion-input [(ngModel)]="contact" required type="number" placeholder="Contact number"></ion-input>
   </ion-item>
 
-  <ion-button expand="block" [routerLink]="['/register/address']">Save and continue</ion-button>
+  <ion-button (click)="submit()" expand="block">Save and continue</ion-button>
 </ion-content>

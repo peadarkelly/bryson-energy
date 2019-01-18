@@ -1,19 +1,15 @@
 <ion-content padding>
-
   <img id="login-logo" class="center" src="assets/icon/logo-navy.png"/>
 
   <ion-item>
-    <ion-input required type="text" placeholder="Email address"></ion-input>
+    <ion-input [(ngModel)]="email" required type="text" placeholder="Email address"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-input required type="password" placeholder="Password"></ion-input>
+    <ion-input [(ngModel)]="password" required type="password" placeholder="Password"></ion-input>
   </ion-item>
 
-  <ion-button expand="block">Sign in</ion-button>
+  <ion-button (click)="submit()" expand="block">Sign in</ion-button>
 
-  <div>
-    <a id="sign-up" class="center" href="/register/details">Sign up for free</a>
-  </div>
-
+  <ion-button href="/register/details" routerDirection="forward" fill="clear" id="sign-up" class="center">Sign up for free</ion-button>
 </ion-content>

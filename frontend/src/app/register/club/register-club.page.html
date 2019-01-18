@@ -1,7 +1,7 @@
 <ion-content padding>
-    <ion-icon name="close" id="close" [routerLink]="['/register/address']"></ion-icon>
+  <ion-back-button defaultHref="/register/address" icon="close" text="" color="secondary" id="close"></ion-back-button>
 
-    <h2 padding>Step 3/3: Choose your club</h2>
+  <h2 padding>Step 3/3: Choose your club</h2>
 
-    <ion-button expand="block">Save and register</ion-button>
-  </ion-content>
+  <ion-button (click)="submit()" expand="block">Save and register</ion-button>
+</ion-content>
