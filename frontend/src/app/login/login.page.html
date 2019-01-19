@@ -4,8 +4,8 @@
   <form [formGroup]="loginForm" (ngSubmit)="submit()">
     <div [class.invalid-input]="submitted && f.email.errors">
       <div *ngIf="submitted && f.email.errors" class="error-message">
-        <span *ngIf="submitted && f.email.errors.required">You must supply an email address</span>
-        <span *ngIf="submitted && f.email.errors.email">You must supply a valid email address</span>
+        <span *ngIf="submitted && f.email.errors.required">You must provide an email address</span>
+        <span *ngIf="submitted && f.email.errors.email">You must provide a valid email address</span>
       </div>
 
       <ion-item>
@@ -16,7 +16,7 @@
 
     <div [class.invalid-input]="submitted && f.password.errors">
       <div *ngIf="submitted && f.password.errors" class="error-message">
-        <span *ngIf="submitted && f.password.errors.required">You must supply a password</span>
+        <span *ngIf="submitted && f.password.errors.required">You must provide a password</span>
       </div>
 
       <ion-item>

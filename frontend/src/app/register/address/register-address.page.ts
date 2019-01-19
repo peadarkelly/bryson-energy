@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from '@ionic/angular'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-register-address',
@@ -8,24 +9,33 @@ import { NavController } from '@ionic/angular'
 })
 export class RegisterAddressPage implements OnInit {
 
-  houseNumber: number
-  address1: string
-  address2: string
-  city: string
-  postcode: string
+  addressForm: FormGroup
+  submitted = false
 
   constructor(private navCtrl: NavController) { }
 
   ngOnInit() {
+    this.addressForm = new FormGroup({
+      houseNumber: new FormControl(null, Validators.required),
+      address1: new FormControl(null, Validators.required),
+      address2: new FormControl(),
+      city: new FormControl(null, Validators.required),
+      postcode: new FormControl(null, Validators.required)
+    }, {
+      updateOn: 'blur'
+    })
   }
 
   submit(): void {
-    console.log(this.houseNumber)
-    console.log(this.address1)
-    console.log(this.address2)
-    console.log(this.city)
-    console.log(this.postcode)
+    this.submitted = true
+
+    if (this.addressForm.invalid) {
+      console.log(this.addressForm)
+      return
+    }
+
     this.navCtrl.navigateForward('/register/club')
   }
 
+  get f() { return this.addressForm.controls }
 }
