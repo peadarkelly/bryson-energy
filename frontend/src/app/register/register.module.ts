@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular'
 
 import { RegisterDetailsPage } from './details/register-details.page'
 import { RegisterAddressPage } from './address/register-address.page'
+import { RegisterClubsPage } from './clubs/register-clubs.page'
 import { RegisterClubPage } from './club/register-club.page'
 
 const routes: Routes = [
@@ -24,7 +25,11 @@ const routes: Routes = [
     component: RegisterAddressPage
   },
   {
-    path: 'club',
+    path: 'clubs',
+    component: RegisterClubsPage
+  },
+  {
+    path: 'club/:clubId',
     component: RegisterClubPage
   }
 ]
@@ -40,6 +45,7 @@ const routes: Routes = [
   declarations: [
     RegisterDetailsPage,
     RegisterAddressPage,
+    RegisterClubsPage,
     RegisterClubPage
   ]
 })

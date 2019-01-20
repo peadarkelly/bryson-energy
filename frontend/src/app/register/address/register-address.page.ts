@@ -34,7 +34,7 @@ export class RegisterAddressPage implements OnInit {
       return
     }
 
-    this.navCtrl.navigateForward('/register/club')
+    this.navCtrl.navigateForward('/register/clubs')
   }
 
   get f() { return this.addressForm.controls }

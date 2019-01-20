@@ -1,0 +1,21 @@
+<ion-content padding>
+  <ion-back-button defaultHref="/register/address" icon="close" text="" color="secondary" id="close"></ion-back-button>
+
+  <h2 padding>Step 3/3: Choose your club</h2>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Clubs</ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let club of clubs" (click)="viewClub(club)">
+      <ion-label>
+        <h2>{{ club.admin }}</h2>
+        <p>{{ club.numberOfMembers }} members</p>
+      </ion-label>
+      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-button href="/login" routerDirection="back" fill="clear" class="center btn-link">Return to login</ion-button>
+</ion-content>
