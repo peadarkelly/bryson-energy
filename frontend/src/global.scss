@@ -10,3 +10,27 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+.center {
+  text-align: center;
+  margin: auto;
+  display: block;
+}
+
+.btn-link {
+  text-decoration: underline
+}
+
+#close {
+  font-size: 40px;
+}
+
+.invalid-input {
+  border-left: 5px solid var(--ion-color-danger);
+
+  .error-message {
+    font-size: 14px;
+    padding-left: 16px;
+    margin-top: 5px;
+    color: var(--ion-color-danger);
+  }
+}

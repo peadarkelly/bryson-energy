@@ -1,0 +1,62 @@
+<ion-content padding>
+  <ion-back-button defaultHref="/register/details" icon="close" text="" color="secondary" id="close"></ion-back-button>
+
+  <h2 padding>Step 2/3: Enter your address</h2>
+
+  <form [formGroup]="addressForm" (ngSubmit)="submit()">
+    <div [class.invalid-input]="submitted && f.houseNumber.errors">
+      <div *ngIf="submitted && f.houseNumber.errors" class="error-message">
+        <span *ngIf="submitted && f.houseNumber.errors.required">You must provide a house number</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">House number</ion-label>
+        <ion-input formControlName="houseNumber" required type="number"></ion-input>
+      </ion-item>
+    </div>
+
+    <div [class.invalid-input]="submitted && f.address1.errors">
+      <div *ngIf="submitted && f.address1.errors" class="error-message">
+        <span *ngIf="submitted && f.address1.errors.required">You must provide an address</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Address line 1</ion-label>
+        <ion-input formControlName="address1" required type="text"></ion-input>
+      </ion-item>
+    </div>
+
+    <div>
+      <ion-item>
+        <ion-label position="floating">Address line 2</ion-label>
+        <ion-input formControlName="address2" type="text"></ion-input>
+      </ion-item>
+    </div>
+
+    <div [class.invalid-input]="submitted && f.city.errors">
+      <div *ngIf="submitted && f.city.errors" class="error-message">
+        <span *ngIf="submitted && f.city.errors.required">You must provide a city</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">City</ion-label>
+        <ion-input formControlName="city" required type="text"></ion-input>
+      </ion-item>
+    </div>
+
+    <div [class.invalid-input]="submitted && f.postcode.errors">
+      <div *ngIf="submitted && f.postcode.errors" class="error-message">
+        <span *ngIf="submitted && f.postcode.errors.required">You must provide a postcode</span>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Postcode</ion-label>
+        <ion-input formControlName="postcode" required type="text"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-button type="submit" expand="block">Save and continue</ion-button>
+  </form>
+
+  <ion-button href="/login" routerDirection="back" fill="clear" class="center btn-link">Return to login</ion-button>
+</ion-content>
