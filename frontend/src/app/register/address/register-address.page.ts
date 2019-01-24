@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { NavController } from '@ionic/angular'
+import { NavController, AlertController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { RegisterAddressData } from './registerAddressData'
+import { Storage } from '@ionic/storage'
+import { RegisterDetailsData } from '../details/registerDetailsData'
+import { AngularFireAuth } from '@angular/fire/auth'
 
 @Component({
   selector: 'app-register-address',
@@ -9,32 +13,109 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class RegisterAddressPage implements OnInit {
 
+  private static EMAIL_EXISTS_ERROR = 'auth/email-already-in-use'
+
   addressForm: FormGroup
   submitted = false
 
-  constructor(private navCtrl: NavController) { }
+  constructor(
+    private navCtrl: NavController,
+    private storage: Storage,
+    private auth: AngularFireAuth,
+    private alertCtrl: AlertController) { }
 
   ngOnInit() {
     this.addressForm = new FormGroup({
       houseNumber: new FormControl(null, Validators.required),
       address1: new FormControl(null, Validators.required),
-      address2: new FormControl(),
+      address2: new FormControl(null),
       city: new FormControl(null, Validators.required),
       postcode: new FormControl(null, Validators.required)
     }, {
       updateOn: 'blur'
     })
+
+    this.prepopulateFromSession()
   }
 
-  submit(): void {
-    this.submitted = true
+  private async prepopulateFromSession(): Promise<void> {
+    const address: RegisterAddressData = await this.storage.get('register.address')
 
-    if (this.addressForm.invalid) {
-      console.log(this.addressForm)
+    if (!address) {
       return
     }
 
-    this.navCtrl.navigateForward('/register/clubs')
+    this.addressForm.setValue({
+      houseNumber: address.houseNumber,
+      address1: address.addressLine1,
+      address2: address.addressLine2,
+      city: address.city,
+      postcode: address.postcode
+    })
+  }
+
+  async createAccount(): Promise<void> {
+    this.submitted = true
+
+    if (this.addressForm.invalid) {
+      return
+    }
+
+    await this.saveToSession()
+
+    try {
+      await this.createUser()
+
+      this.showAlert('Registration successful!', 'Your account has been created successfully.')
+
+      this.navCtrl.navigateRoot('/register/clubs')
+    } catch (err) {
+      this.handleError(err)
+    }
+  }
+
+  private saveToSession(): Promise<void> {
+    const address: RegisterAddressData = {
+      houseNumber: this.addressForm.get('houseNumber').value,
+      addressLine1: this.addressForm.get('address1').value,
+      addressLine2: this.addressForm.get('address2').value,
+      city: this.addressForm.get('city').value,
+      postcode: this.addressForm.get('postcode').value
+    }
+
+    return this.storage.set('register.address', address)
+  }
+
+  private async createUser(): Promise<void> {
+    // const address: RegisterAddressData = await this.storage.get('register.address')
+    const details: RegisterDetailsData = await this.storage.get('register.details')
+
+    const response = await this.auth.auth.createUserWithEmailAndPassword(details.email, details.password)
+
+    await this.storage.remove('register.details')
+    await this.storage.remove('register.address')
+    await this.storage.set('user', response.user.uid)
+  }
+
+  private async handleError(err): Promise<void> {
+    console.error(err)
+
+    if (err.code === RegisterAddressPage.EMAIL_EXISTS_ERROR) {
+      this.showAlert('Email already exists', 'The email address is already in use by another account.')
+      this.navCtrl.navigateBack('/register/details')
+    } else {
+      this.showAlert('Something went wrong', 'Please try again')
+    }
+  }
+
+  private async showAlert(heading: string, message: string): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: heading,
+      message: message,
+      buttons: ['OK']
+    })
+
+    alert.present()
   }
 
   get f() { return this.addressForm.controls }

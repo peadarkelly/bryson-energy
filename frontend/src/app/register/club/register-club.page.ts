@@ -12,7 +12,10 @@ export class RegisterClubPage implements OnInit {
 
   club: Club
 
-  constructor(private route: ActivatedRoute, private navCtrl: NavController) { }
+  constructor(
+    private route: ActivatedRoute,
+    private navCtrl: NavController,
+    private storage: Storage) { }
 
   ngOnInit() {
     this.club = {
@@ -33,7 +36,8 @@ export class RegisterClubPage implements OnInit {
     }
   }
 
-  joinClub(): void {
+  async joinClub(): Promise<void> {
+    await this.storage.set('clubId', this.club.clubId)
     this.navCtrl.navigateRoot('/tabs')
   }
 }
