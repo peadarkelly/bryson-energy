@@ -6,11 +6,10 @@ import schema from './schema'
 export default function setupGraphqlServer(): express.Application {
   const server: ApolloServer = new ApolloServer({
     schema: schema,
+    introspection: true,
     playground: {
       endpoint: 'api/graphql'
-    },
-    introspection: true,
-
+    }
   })
 
   const app: express.Application = express()
