@@ -1,5 +1,7 @@
+import { firestore as fire } from 'firebase-admin'
+
 export interface User {
-  userId: string
+  userId?: string
   firstName: string
   surname: string
   email: string
@@ -13,10 +15,10 @@ export interface User {
 }
 
 export interface Club {
-  clubId: string
+  clubId?: string
   admin: string
-  createdDate: Date
-  lastOrderDate?: Date
+  createdDate: fire.Timestamp
+  lastOrderDate?: fire.Timestamp
   numberOfMembers: number
 }
 

@@ -27,6 +27,8 @@ const typeDefs = gql`
       postcode: String!
     ): User
 
+    addClub(adminId: ID!): Club
+
     joinClub(userId: ID!, clubId: ID!): User
   }
 

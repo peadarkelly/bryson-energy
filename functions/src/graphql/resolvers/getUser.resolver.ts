@@ -1,11 +1,13 @@
 import { firestore as fire } from 'firebase-admin'
+import { User } from '../models'
+import { mapToUserResponse } from '../mappers'
 
-export default async (parent: any, { userId }: any, ctx: { firestore: fire.Firestore }) => {
-  const user = await ctx.firestore.collection('users').doc(userId).get()
+export default async function (parent: any, { userId }: any, ctx: { firestore: fire.Firestore }): Promise<User> {
+  const userSnap: fire.DocumentSnapshot = await ctx.firestore.collection('users').doc(userId).get()
 
-  if (!user.exists) {
+  if (!userSnap.exists) {
     throw new Error('User not found')
   }
 
-  return user.data()
+  return mapToUserResponse(userSnap.ref.id, userSnap.data())
 }

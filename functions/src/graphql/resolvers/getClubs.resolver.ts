@@ -1,7 +1,8 @@
 import { firestore as fire } from 'firebase-admin'
-import { mapToClub } from '../mappers'
+import { mapToClubResponse } from '../mappers'
+import { Club } from '../models'
 
-export default async (parent: any, { clubId }: any, ctx: { firestore: fire.Firestore }) => {
+export default async function (parent: any, { clubId }: any, ctx: { firestore: fire.Firestore }): Promise<Club[]> {
   const clubsReference = ctx.firestore.collection('clubs')
 
   if (clubId) {
@@ -12,5 +13,5 @@ export default async (parent: any, { clubId }: any, ctx: { firestore: fire.Fires
 
   // TODO filter clubs in range
 
-  return clubsSnap.docs.map(doc => mapToClub(doc.ref.id, doc.data()))
+  return clubsSnap.docs.map(doc => mapToClubResponse(doc.ref.id, doc.data()))
 }
