@@ -30,6 +30,6 @@ export default {
   Mutation: {
     addUser: addUserResolver.resolve.bind(addUserResolver),
     addClub: addClubResolver.resolve.bind(addClubResolver),
-    joinClub: joinClubResolver.resolve.bind(getClubsResolver)
+    joinClub: joinClubResolver.resolve.bind(joinClubResolver)
   }
 }

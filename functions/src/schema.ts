@@ -1,37 +1,7 @@
-import { gql, makeExecutableSchema, IResolvers } from 'apollo-server-express'
+import { gql, makeExecutableSchema, IResolvers, ITypeDefinitions } from 'apollo-server-express'
 import resolvers from './resolvers/resolvers'
 
-const typeDefs = gql`
-  schema {
-    query: Query
-    mutation: Mutation
-  }
-
-  type Query {
-    getUser(userId: ID!): User!
-
-    getClubs(clubId: ID): [Club!]!
-  }
-
-  type Mutation {
-    addUser(
-      userId: ID!,
-      firstName: String!,
-      surname: String!,
-      email: String!,
-      contact: String!,
-      houseNumber: Int!,
-      addressLine1: String!,
-      addressLine2: String,
-      city: String!,
-      postcode: String!
-    ): User!
-
-    addClub(adminId: ID!): Club!
-
-    joinClub(userId: ID!, clubId: ID!): User!
-  }
-
+const typeDefs: ITypeDefinitions = gql`
   type User {
     userId: ID!
     firstName: String!
@@ -59,6 +29,36 @@ const typeDefs = gql`
   type ClubMember {
     userId: ID!
     name: String!
+  }
+
+  type Query {
+    getUser(userId: ID!): User!
+
+    getClubs(clubId: ID): [Club!]!
+  }
+
+  type Mutation {
+    addUser(
+      userId: ID!,
+      firstName: String!,
+      surname: String!,
+      email: String!,
+      contact: String!,
+      houseNumber: Int!,
+      addressLine1: String!,
+      addressLine2: String,
+      city: String!,
+      postcode: String!
+    ): User!
+
+    addClub(adminId: ID!): Club!
+
+    joinClub(userId: ID!, clubId: ID!): User!
+  }
+
+  schema {
+    query: Query
+    mutation: Mutation
   }
 `
 
