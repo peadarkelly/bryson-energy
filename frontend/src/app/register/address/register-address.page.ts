@@ -1,30 +1,33 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { RegisterAddressData } from './registerAddressData'
 import { Storage } from '@ionic/storage'
-import { RegisterDetailsData } from '../details/registerDetailsData'
 import { AngularFireAuth } from '@angular/fire/auth'
+import { auth } from 'firebase'
+import RegisterAddressData from './registerAddressData'
+import RegisterDetailsData from '../details/registerDetailsData'
+import { AddUserGQL, AddUser } from '../../graphql/generated'
 
 @Component({
   selector: 'app-register-address',
   templateUrl: './register-address.page.html',
-  styleUrls: ['./register-address.page.scss'],
+  styleUrls: ['./register-address.page.scss']
 })
 export class RegisterAddressPage implements OnInit {
 
   private static EMAIL_EXISTS_ERROR = 'auth/email-already-in-use'
 
-  addressForm: FormGroup
-  submitted = false
+  public addressForm: FormGroup
+  public submitted = false
 
-  constructor(
+  public constructor(
     private navCtrl: NavController,
     private storage: Storage,
-    private auth: AngularFireAuth,
-    private alertCtrl: AlertController) { }
+    private authService: AngularFireAuth,
+    private alertCtrl: AlertController,
+    private addUserGQL: AddUserGQL) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.addressForm = new FormGroup({
       houseNumber: new FormControl(null, Validators.required),
       address1: new FormControl(null, Validators.required),
@@ -54,7 +57,7 @@ export class RegisterAddressPage implements OnInit {
     })
   }
 
-  async createAccount(): Promise<void> {
+  public async createAccount(): Promise<void> {
     this.submitted = true
 
     if (this.addressForm.invalid) {
@@ -64,11 +67,15 @@ export class RegisterAddressPage implements OnInit {
     await this.saveToSession()
 
     try {
-      await this.createUser()
+      (await this.createUser()).subscribe(async ({ data }) => {
+        await this.storage.set('user', data.addUser.userId)
+        await this.storage.remove('register.details')
+        await this.storage.remove('register.address')
 
-      this.showAlert('Registration successful!', 'Your account has been created successfully.')
+        this.showAlert('Registration successful!', 'Your account has been created successfully.')
 
-      this.navCtrl.navigateRoot('/register/clubs')
+        this.navCtrl.navigateRoot('/register/clubs')
+      })
     } catch (err) {
       this.handleError(err)
     }
@@ -86,15 +93,28 @@ export class RegisterAddressPage implements OnInit {
     return this.storage.set('register.address', address)
   }
 
-  private async createUser(): Promise<void> {
-    // const address: RegisterAddressData = await this.storage.get('register.address')
+  private async createUser() {
     const details: RegisterDetailsData = await this.storage.get('register.details')
+    const address: RegisterAddressData = await this.storage.get('register.address')
 
-    const response = await this.auth.auth.createUserWithEmailAndPassword(details.email, details.password)
+    const response: auth.UserCredential = await this.authService.auth.createUserWithEmailAndPassword(details.email, details.password)
 
-    await this.storage.remove('register.details')
-    await this.storage.remove('register.address')
-    await this.storage.set('user', response.user.uid)
+    return this.addUserGQL.mutate(this.getVariables(response.user.uid, details, address))
+  }
+
+  private getVariables(userId: string, details: RegisterDetailsData, address: RegisterAddressData): AddUser.Variables {
+    return {
+      userId: userId,
+      firstName: details.firstName,
+      surname: details.surname,
+      email: details.email,
+      contact: details.contact,
+      houseNumber: address.houseNumber,
+      addressLine1: address.addressLine1,
+      addressLine2: address.addressLine2,
+      city: address.city,
+      postcode: address.postcode
+    }
   }
 
   private async handleError(err): Promise<void> {

@@ -1,39 +1,25 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from '@ionic/angular'
-import { ClubSummary } from '../../models'
+import { Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { GetClubsGQL, GetClubs } from '../../graphql/generated'
 
 @Component({
   selector: 'app-register-clubs',
   templateUrl: './register-clubs.page.html',
-  styleUrls: ['./register-clubs.page.scss'],
+  styleUrls: ['./register-clubs.page.scss']
 })
 export class RegisterClubsPage implements OnInit {
 
-  clubs: ClubSummary[] = []
+  public clubs: Observable<GetClubs.GetClubs[]>
 
-  constructor(private navCtrl: NavController) { }
+  public constructor(private navCtrl: NavController, private getClubsGQL: GetClubsGQL) { }
 
-  ngOnInit() {
-    this.clubs = [
-      {
-        clubId: 123,
-        admin: 'Joe Bloggs',
-        numberOfMembers: 2
-      },
-      {
-        clubId: 456,
-        admin: 'Mary Todd',
-        numberOfMembers: 3
-      },
-      {
-        clubId: 789,
-        admin: 'Raymond Gormley',
-        numberOfMembers: 7
-      }
-    ]
+  public ngOnInit() {
+    this.clubs = this.getClubsGQL.fetch().pipe(map(result => result.data.getClubs))
   }
 
-  viewClub(club: ClubSummary): void {
+  public viewClub(club: GetClubs.GetClubs): void {
     this.navCtrl.navigateForward(`/register/club/${club.clubId}`)
   }
 

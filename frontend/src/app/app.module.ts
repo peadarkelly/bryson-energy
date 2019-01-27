@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser'
 import { RouteReuseStrategy } from '@angular/router'
 import { AngularFireModule } from '@angular/fire'
 import { AngularFireAuthModule } from '@angular/fire/auth'
+import { HttpClientModule } from '@angular/common/http'
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular'
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular'
 import { IonicStorageModule } from '@ionic/storage'
@@ -22,12 +26,27 @@ import { environment } from '../environments/environment'
     AngularFireAuthModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ApolloModule,
+    HttpLinkModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory(httpLink: HttpLink) {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: environment.graphqlServer
+          })
+        }
+      },
+      deps: [HttpLink]
+    }
   ],
   bootstrap: [AppComponent]
 })

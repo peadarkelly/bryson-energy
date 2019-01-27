@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { PasswordMatcher } from '../passwordMatcher'
 import { Storage } from '@ionic/storage'
-import { RegisterDetailsData } from './registerDetailsData'
+import PasswordMatcher from './passwordMatcher'
+import RegisterDetailsData from './registerDetailsData'
 
 @Component({
   selector: 'app-register-details',
   templateUrl: './register-details.page.html',
-  styleUrls: ['./register-details.page.scss'],
+  styleUrls: ['./register-details.page.scss']
 })
 export class RegisterDetailsPage implements OnInit {
 

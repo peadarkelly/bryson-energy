@@ -1,0 +1,7 @@
+query getClubs($clubId: ID) {
+  getClubs(clubId: $clubId) {
+    clubId
+    admin
+    numberOfMembers
+  }
+}

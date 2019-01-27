@@ -1,6 +1,15 @@
 import { firestore as fire } from 'firebase-admin'
 
-export interface User {
+export interface BaseModel<T> {
+  id: string,
+  data: T,
+}
+
+export interface Context {
+  firestore: fire.Firestore
+}
+
+export interface UserModel {
   userId?: string
   firstName: string
   surname: string
@@ -14,14 +23,14 @@ export interface User {
   clubId?: string
 }
 
-export interface Club {
+export interface ClubModel {
   clubId?: string
   admin: string
-  createdDate: fire.Timestamp
-  lastOrderDate?: fire.Timestamp
+  createdDate: Date
+  lastOrderDate?: Date
   numberOfMembers: number
 }
 
-export interface ClubMember {
+export interface ClubUserModel {
   name: string
 }
