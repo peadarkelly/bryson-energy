@@ -1,0 +1,8 @@
+overwrite: true
+schema: "https://us-central1-bryson-energy.cloudfunctions.net/api/graphql"
+documents: null
+generates:
+  src/models/graphql.models.ts:
+    plugins:
+      - "typescript-common"
+      - "typescript-server"

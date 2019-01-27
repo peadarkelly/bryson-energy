@@ -11,7 +11,8 @@ export const environment = {
     projectId: 'bryson-energy',
     storageBucket: 'bryson-energy.appspot.com',
     messagingSenderId: '1079978312156'
-  }
+  },
+  graphqlServer: 'https://us-central1-bryson-energy.cloudfunctions.net/api/graphql'
 }
 
 /*

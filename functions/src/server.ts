@@ -19,8 +19,8 @@ export default function setupGraphqlServer(firestore: fire.Firestore): express.A
   const app: express.Application = express()
   server.applyMiddleware({ app })
 
-  app.use("/schema", (req, res) => {
-    res.set("Content-Type", "text/plain")
+  app.use('/schema', (req, res) => {
+    res.set('Content-Type', 'text/plain')
     res.send(printSchema(schema))
   })
 

@@ -1,4 +1,4 @@
-import { gql, makeExecutableSchema } from 'apollo-server-express'
+import { gql, makeExecutableSchema, IResolvers } from 'apollo-server-express'
 import resolvers from './resolvers/resolvers'
 
 const typeDefs = gql`
@@ -8,9 +8,9 @@ const typeDefs = gql`
   }
 
   type Query {
-    getUser(userId: ID!): User
+    getUser(userId: ID!): User!
 
-    getClubs(clubId: ID): [Club]!
+    getClubs(clubId: ID): [Club!]!
   }
 
   type Mutation {
@@ -25,11 +25,11 @@ const typeDefs = gql`
       addressLine2: String,
       city: String!,
       postcode: String!
-    ): User
+    ): User!
 
-    addClub(adminId: ID!): Club
+    addClub(adminId: ID!): Club!
 
-    joinClub(userId: ID!, clubId: ID!): User
+    joinClub(userId: ID!, clubId: ID!): User!
   }
 
   type User {
@@ -43,6 +43,7 @@ const typeDefs = gql`
     addressLine2: String
     city: String!
     postcode: String!
+    clubId: ID
     club: Club
   }
 
@@ -52,15 +53,16 @@ const typeDefs = gql`
     createdDate: String!
     lastOrderDate: String
     numberOfMembers: Int!
-    members: [ClubMember]!
+    members: [ClubMember!]!
   }
 
   type ClubMember {
+    userId: ID!
     name: String!
   }
 `
 
 export default makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers: <IResolvers>resolvers
 })

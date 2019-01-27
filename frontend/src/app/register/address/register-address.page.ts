@@ -5,6 +5,8 @@ import { RegisterAddressData } from './registerAddressData'
 import { Storage } from '@ionic/storage'
 import { RegisterDetailsData } from '../details/registerDetailsData'
 import { AngularFireAuth } from '@angular/fire/auth'
+import { auth } from 'firebase'
+import RegisterService from '../register.service'
 
 @Component({
   selector: 'app-register-address',
@@ -21,8 +23,9 @@ export class RegisterAddressPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private storage: Storage,
-    private auth: AngularFireAuth,
-    private alertCtrl: AlertController) { }
+    private authService: AngularFireAuth,
+    private alertCtrl: AlertController,
+    private registerService: RegisterService) { }
 
   ngOnInit() {
     this.addressForm = new FormGroup({
@@ -87,14 +90,16 @@ export class RegisterAddressPage implements OnInit {
   }
 
   private async createUser(): Promise<void> {
-    // const address: RegisterAddressData = await this.storage.get('register.address')
     const details: RegisterDetailsData = await this.storage.get('register.details')
+    const address: RegisterAddressData = await this.storage.get('register.address')
 
-    const response = await this.auth.auth.createUserWithEmailAndPassword(details.email, details.password)
+    const response: auth.UserCredential = await this.authService.auth.createUserWithEmailAndPassword(details.email, details.password)
 
-    await this.storage.remove('register.details')
-    await this.storage.remove('register.address')
-    await this.storage.set('user', response.user.uid)
+    this.registerService.createUser(response.user.uid, details, address).subscribe(async ({ data }) => {
+      await this.storage.set('user', data)
+      await this.storage.remove('register.details')
+      await this.storage.remove('register.address')
+    })
   }
 
   private async handleError(err): Promise<void> {

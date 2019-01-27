@@ -7,3 +7,6 @@ lib/
 typings/
 
 node_modules/
+
+# Graphql generated models
+src/models/graphql.models.ts
