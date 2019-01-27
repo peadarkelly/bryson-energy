@@ -1,40 +1,45 @@
+import { injectable } from 'inversify'
 import { firestore as fire } from 'firebase-admin'
 import { Context, BaseModel, ClubModel } from '../models/firestore.models'
-import { mapToResult, mapToCollectionResult } from '../mappers/firestore.mapper'
+import BaseDao from './base.dao'
 
-export async function createClub(ctx: Context, club: ClubModel): Promise<BaseModel<ClubModel>> {
-  const clubRef: fire.DocumentReference = await ctx.firestore.collection('clubs').add(club)
-  const clubSnap: fire.DocumentSnapshot = await clubRef.get()
+@injectable()
+export default class ClubDao extends BaseDao<ClubModel> {
 
-  return mapToResult<ClubModel>(clubSnap)
-}
+  public async createClub(ctx: Context, club: ClubModel): Promise<BaseModel<ClubModel>> {
+    const clubRef: fire.DocumentReference = await ctx.firestore.collection('clubs').add(club)
+    const clubSnap: fire.DocumentSnapshot = await clubRef.get()
 
-export async function getClubs(ctx: Context, clubId?: string): Promise<BaseModel<ClubModel>[]> {
-  const clubsReference = ctx.firestore.collection('clubs')
-
-  if (clubId) {
-    clubsReference.doc(clubId)
+    return super.mapToResult(clubSnap)
   }
 
-  const clubsSnap: fire.QuerySnapshot = await clubsReference.get()
+  public async getClubs(ctx: Context, clubId?: string): Promise<BaseModel<ClubModel>[]> {
+    const clubsReference = ctx.firestore.collection('clubs')
 
-  return mapToCollectionResult<ClubModel>(clubsSnap)
-}
+    if (clubId) {
+      clubsReference.doc(clubId)
+    }
 
-export async function getClub(ctx: Context, clubId: string): Promise<BaseModel<ClubModel>> {
-  const clubSnap: fire.DocumentSnapshot = await ctx.firestore.collection('clubs').doc(clubId).get()
+    const clubsSnap: fire.QuerySnapshot = await clubsReference.get()
 
-  if (!clubSnap.exists) {
-    return null
+    return super.mapToCollectionResult(clubsSnap)
   }
 
-  return mapToResult(clubSnap)
-}
+  public async getClub(ctx: Context, clubId: string): Promise<BaseModel<ClubModel>> {
+    const clubSnap: fire.DocumentSnapshot = await ctx.firestore.collection('clubs').doc(clubId).get()
 
-export async function updateUserClubId(ctx: Context, userId: string, clubId: string): Promise<void> {
-  await ctx.firestore.collection('users').doc(userId).update({ clubId: clubId })
-}
+    if (!clubSnap.exists) {
+      return null
+    }
 
-export async function incrementNumberOfMembers(ctx: Context, clubId: string, club: ClubModel): Promise<void> {
-  await ctx.firestore.collection('clubs').doc(clubId).update({ numberOfMembers: club.numberOfMembers + 1 })
+    return super.mapToResult(clubSnap)
+  }
+
+  public async updateUserClubId(ctx: Context, userId: string, clubId: string): Promise<void> {
+    await ctx.firestore.collection('users').doc(userId).update({ clubId: clubId })
+  }
+
+  public async incrementNumberOfMembers(ctx: Context, clubId: string, club: ClubModel): Promise<void> {
+    await ctx.firestore.collection('clubs').doc(clubId).update({ numberOfMembers: club.numberOfMembers + 1 })
+  }
 }

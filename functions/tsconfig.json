@@ -8,8 +8,11 @@
     "strict": true,
     "target": "es2017",
     "lib": ["es2017", "esnext.asynciterable"],
+    "types": ["reflect-metadata"],
     "esModuleInterop": true,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "compileOnSave": true,
   "include": [

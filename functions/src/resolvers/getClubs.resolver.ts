@@ -1,12 +1,23 @@
+import { injectable } from 'inversify'
 import { GetClubsQueryArgs, Club } from '../models/graphql.models'
 import { Context, BaseModel, ClubModel } from '../models/firestore.models'
-import { mapToClub } from '../mappers/graphql.mapper'
-import { getClubs } from '../daos/club.dao'
+import GraphqlMapper from '../mappers/graphql.mapper'
+import ClubDao from '../daos/club.dao'
 
-export default async function (parent: null, { clubId }: GetClubsQueryArgs, ctx: Context): Promise<Club[]> {
-  const clubs: BaseModel<ClubModel>[] = await getClubs(ctx, clubId)
+@injectable()
+export default class GetClubsResolver {
 
-  // TODO filter clubs in range
+  public constructor(
+    private graphqlMapper: GraphqlMapper,
+    private clubDao: ClubDao
+  ) {
+  }
 
-  return clubs.map(club => mapToClub(club.id, club.data))
+  public async resolve(parent: null, { clubId }: GetClubsQueryArgs, ctx: Context): Promise<Club[]> {
+    const clubs: BaseModel<ClubModel>[] = await this.clubDao.getClubs(ctx, clubId)
+
+    // TODO filter clubs in range
+
+    return clubs.map(club => this.graphqlMapper.mapToClub(club.id, club.data))
+  }
 }

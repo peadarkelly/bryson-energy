@@ -67,11 +67,15 @@ export class RegisterAddressPage implements OnInit {
     await this.saveToSession()
 
     try {
-      await this.createUser()
+      (await this.createUser()).subscribe(async ({ data }) => {
+        await this.storage.set('user', data)
+        await this.storage.remove('register.details')
+        await this.storage.remove('register.address')
 
-      this.showAlert('Registration successful!', 'Your account has been created successfully.')
+        this.showAlert('Registration successful!', 'Your account has been created successfully.')
 
-      this.navCtrl.navigateRoot('/register/clubs')
+        this.navCtrl.navigateRoot('/register/clubs')
+      })
     } catch (err) {
       this.handleError(err)
     }
@@ -89,17 +93,13 @@ export class RegisterAddressPage implements OnInit {
     return this.storage.set('register.address', address)
   }
 
-  private async createUser(): Promise<void> {
+  private async createUser() {
     const details: RegisterDetailsData = await this.storage.get('register.details')
     const address: RegisterAddressData = await this.storage.get('register.address')
 
     const response: auth.UserCredential = await this.authService.auth.createUserWithEmailAndPassword(details.email, details.password)
 
-    this.registerService.createUser(response.user.uid, details, address).subscribe(async ({ data }) => {
-      await this.storage.set('user', data)
-      await this.storage.remove('register.details')
-      await this.storage.remove('register.address')
-    })
+    return this.registerService.createUser(response.user.uid, details, address)
   }
 
   private async handleError(err): Promise<void> {

@@ -1,28 +1,42 @@
+import { injectable } from 'inversify'
 import { Context, BaseModel, ClubModel, UserModel } from '../models/firestore.models'
 import { JoinClubMutationArgs, User } from '../models/graphql.models'
-import { mapToUser } from '../mappers/graphql.mapper'
-import { getUser, updateUserClubId } from '../daos/user.dao'
-import { createClubUser } from '../daos/clubUsers.dao'
-import { incrementNumberOfMembers, getClub } from '../daos/club.dao'
+import FirestoreMapper from '../mappers/firestore.mapper'
+import GraphqlMapper from '../mappers/graphql.mapper'
+import UserDao from '../daos/user.dao'
+import ClubDao from '../daos/club.dao'
+import ClubUserDao from '../daos/clubUser.dao'
 
-export default async function (parent: null, { userId, clubId }: JoinClubMutationArgs, ctx: Context): Promise<User> {
-  const club: BaseModel<ClubModel> = await getClub(ctx, clubId)
-  if (!club) {
-    throw new Error('clubId does not exist')
+@injectable()
+export default class JoinClubResolver {
+
+  public constructor(
+    private firestoreMapper: FirestoreMapper,
+    private graphqlMapper: GraphqlMapper,
+    private userDao: UserDao,
+    private clubDao: ClubDao,
+    private clubUserDao: ClubUserDao
+  ) {}
+
+  public async resolve(parent: null, { userId, clubId }: JoinClubMutationArgs, ctx: Context): Promise<User> {
+    const club: BaseModel<ClubModel> = await this.clubDao.getClub(ctx, clubId)
+    if (!club) {
+      throw new Error('clubId does not exist')
+    }
+
+    const user: BaseModel<UserModel> = await this.userDao.getUser(ctx, userId)
+    if (!user) {
+      throw new Error('userId does not exist')
+    }
+
+    if (user.data.clubId) {
+      throw new Error('user has already joined a club')
+    }
+
+    await this.userDao.updateUserClubId(ctx, userId, clubId)
+    await this.clubUserDao.createClubUser(ctx, clubId, user.id, this.firestoreMapper.mapToClubUserModel(user.data))
+    await this.clubDao.incrementNumberOfMembers(ctx, clubId, club.data)
+
+    return this.graphqlMapper.mapToUser(user.id, { ...user.data, clubId })
   }
-
-  const user: BaseModel<UserModel> = await getUser(ctx, userId)
-  if (!user) {
-    throw new Error('userId does not exist')
-  }
-
-  if (user.data.clubId) {
-    throw new Error('user has already joined a club')
-  }
-
-  await updateUserClubId(ctx, userId, clubId)
-  await createClubUser(ctx, clubId, user.id, user.data)
-  await incrementNumberOfMembers(ctx, clubId, club.data)
-
-  return mapToUser(user.id, { ...user.data, clubId })
 }

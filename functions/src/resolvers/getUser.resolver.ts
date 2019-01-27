@@ -1,14 +1,24 @@
+import { injectable } from 'inversify'
 import { GetUserQueryArgs, User } from '../models/graphql.models'
 import { Context, BaseModel, UserModel } from '../models/firestore.models'
-import { mapToUser } from '../mappers/graphql.mapper'
-import { getUser } from '../daos/user.dao'
+import GraphqlMapper from '../mappers/graphql.mapper'
+import UserDao from '../daos/user.dao'
 
-export default async function (parent: null, { userId }: GetUserQueryArgs, ctx: Context): Promise<User> {
-  const user: BaseModel<UserModel> = await getUser(ctx, userId)
+@injectable()
+export default class GetUserResolver {
 
-  if (!user) {
-    throw new Error('User not found')
+  public constructor(
+    private graphqlMapper: GraphqlMapper,
+    private userDao: UserDao
+  ) {}
+
+  public async resolve(parent: null, { userId }: GetUserQueryArgs, ctx: Context): Promise<User> {
+    const user: BaseModel<UserModel> = await this.userDao.getUser(ctx, userId)
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    return this.graphqlMapper.mapToUser(user.id, user.data)
   }
-
-  return mapToUser(user.id, user.data)
 }
