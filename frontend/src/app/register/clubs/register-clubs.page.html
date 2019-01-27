@@ -6,7 +6,7 @@
       <ion-label>Clubs</ion-label>
     </ion-list-header>
 
-    <ion-item *ngFor="let club of clubs" (click)="viewClub(club)">
+    <ion-item *ngFor="let club of clubs | async" (click)="viewClub(club)">
       <ion-label>
         <h2>{{ club.admin }}</h2>
         <p>{{ club.numberOfMembers }} members</p>

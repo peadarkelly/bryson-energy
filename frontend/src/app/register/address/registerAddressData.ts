@@ -1,4 +1,4 @@
-export interface RegisterAddressData {
+export default interface RegisterAddressData {
   houseNumber: number
   addressLine1: string
   addressLine2?: string

@@ -1,33 +1,33 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { RegisterAddressData } from './registerAddressData'
 import { Storage } from '@ionic/storage'
-import { RegisterDetailsData } from '../details/registerDetailsData'
 import { AngularFireAuth } from '@angular/fire/auth'
 import { auth } from 'firebase'
-import RegisterService from '../register.service'
+import RegisterAddressData from './registerAddressData'
+import RegisterDetailsData from '../details/registerDetailsData'
+import { AddUserGQL, AddUser } from '../../graphql/generated'
 
 @Component({
   selector: 'app-register-address',
   templateUrl: './register-address.page.html',
-  styleUrls: ['./register-address.page.scss'],
+  styleUrls: ['./register-address.page.scss']
 })
 export class RegisterAddressPage implements OnInit {
 
   private static EMAIL_EXISTS_ERROR = 'auth/email-already-in-use'
 
-  addressForm: FormGroup
-  submitted = false
+  public addressForm: FormGroup
+  public submitted = false
 
-  constructor(
+  public constructor(
     private navCtrl: NavController,
     private storage: Storage,
     private authService: AngularFireAuth,
     private alertCtrl: AlertController,
-    private registerService: RegisterService) { }
+    private addUserGQL: AddUserGQL) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.addressForm = new FormGroup({
       houseNumber: new FormControl(null, Validators.required),
       address1: new FormControl(null, Validators.required),
@@ -57,7 +57,7 @@ export class RegisterAddressPage implements OnInit {
     })
   }
 
-  async createAccount(): Promise<void> {
+  public async createAccount(): Promise<void> {
     this.submitted = true
 
     if (this.addressForm.invalid) {
@@ -68,7 +68,7 @@ export class RegisterAddressPage implements OnInit {
 
     try {
       (await this.createUser()).subscribe(async ({ data }) => {
-        await this.storage.set('user', data)
+        await this.storage.set('user', data.addUser.userId)
         await this.storage.remove('register.details')
         await this.storage.remove('register.address')
 
@@ -99,7 +99,22 @@ export class RegisterAddressPage implements OnInit {
 
     const response: auth.UserCredential = await this.authService.auth.createUserWithEmailAndPassword(details.email, details.password)
 
-    return this.registerService.createUser(response.user.uid, details, address)
+    return this.addUserGQL.mutate(this.getVariables(response.user.uid, details, address))
+  }
+
+  private getVariables(userId: string, details: RegisterDetailsData, address: RegisterAddressData): AddUser.Variables {
+    return {
+      userId: userId,
+      firstName: details.firstName,
+      surname: details.surname,
+      email: details.email,
+      contact: details.contact,
+      houseNumber: address.houseNumber,
+      addressLine1: address.addressLine1,
+      addressLine2: address.addressLine2,
+      city: address.city,
+      postcode: address.postcode
+    }
   }
 
   private async handleError(err): Promise<void> {

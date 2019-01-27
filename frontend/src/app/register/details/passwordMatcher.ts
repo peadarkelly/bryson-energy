@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms'
 
-export class PasswordMatcher {
+export default class PasswordMatcher {
 
   static MatchPassword(AC: FormGroup): null {
     const password: string = AC.get('password').value

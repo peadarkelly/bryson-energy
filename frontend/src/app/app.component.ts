@@ -22,15 +22,25 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.storage.get('user').then(user => {
-        if (!user) {
-          this.navCtrl.navigateRoot('/login')
-        } else if (!user.clubId) {
-          this.navCtrl.navigateRoot('/register/clubs')
-        }
+      this.getInitialRoute().then(route => {
+        this.navCtrl.navigateRoot(route)
+        this.statusBar.styleDefault()
+        this.splashScreen.hide()
       })
-      this.statusBar.styleDefault()
-      this.splashScreen.hide()
     })
+  }
+
+  private async getInitialRoute(): Promise<string> {
+    const user = await this.storage.get('user')
+    if (!user) {
+      return '/login'
+    }
+
+    const club = await this.storage.get('club')
+    if (!club) {
+      return '/register/clubs'
+    }
+
+    return '/tabs'
   }
 }
