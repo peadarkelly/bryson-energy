@@ -21,7 +21,6 @@ const typeDefs: ITypeDefinitions = gql`
     clubId: ID!
     admin: String!
     createdDate: String!
-    lastOrderDate: String
     numberOfMembers: Int!
     members: [ClubMember!]!
   }
@@ -29,6 +28,7 @@ const typeDefs: ITypeDefinitions = gql`
   type ClubMember {
     userId: ID!
     name: String!
+    isAdmin: Boolean!
   }
 
   type Query {

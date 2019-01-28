@@ -1,12 +1,11 @@
 query getClub($clubId: ID) {
   getClubs(clubId: $clubId) {
     clubId
-    admin
     createdDate
-    lastOrderDate
     numberOfMembers
     members {
       name
+      isAdmin
     }
   }
 }

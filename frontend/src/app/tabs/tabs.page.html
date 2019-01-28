@@ -3,11 +3,8 @@
   <ion-tab tab="home">
     <ion-router-outlet name="home"></ion-router-outlet>
   </ion-tab>
-  <ion-tab tab="about">
-    <ion-router-outlet name="about"></ion-router-outlet>
-  </ion-tab>
-  <ion-tab tab="contact">
-    <ion-router-outlet name="contact"></ion-router-outlet>
+  <ion-tab tab="account">
+    <ion-router-outlet name="account"></ion-router-outlet>
   </ion-tab>
 
   <ion-tab-bar slot="bottom">
@@ -17,14 +14,9 @@
       <ion-label>Home</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="about" href="/tabs/(about:about)">
-      <ion-icon name="information-circle"></ion-icon>
-      <ion-label>About</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="contact" href="/tabs/(contact:contact)">
-      <ion-icon name="contacts"></ion-icon>
-      <ion-label>Contact</ion-label>
+    <ion-tab-button tab="account" href="/tabs/(account:account)">
+      <ion-icon name="contact"></ion-icon>
+      <ion-label>My account</ion-label>
     </ion-tab-button>
 
   </ion-tab-bar>

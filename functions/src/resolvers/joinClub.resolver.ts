@@ -34,7 +34,7 @@ export default class JoinClubResolver {
     }
 
     await this.userDao.updateUserClubId(ctx, userId, clubId)
-    await this.clubUserDao.createClubUser(ctx, clubId, user.id, this.firestoreMapper.mapToClubUserModel(user.data))
+    await this.clubUserDao.createClubUser(ctx, clubId, user.id, this.firestoreMapper.mapToClubUserModel(user.data, false))
     await this.clubDao.incrementNumberOfMembers(ctx, clubId, club.data)
 
     return this.graphqlMapper.mapToUser(user.id, { ...user.data, clubId })

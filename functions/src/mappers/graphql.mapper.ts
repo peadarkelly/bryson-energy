@@ -22,25 +22,21 @@ export default class GraphqlMapper {
   }
 
   public mapToClub(docRef: string, doc: ClubModel): Club {
-    const club: Club =  {
+    return {
       clubId: docRef,
       admin: doc.admin,
       createdDate: doc.createdDate.toISOString(),
       numberOfMembers: doc.numberOfMembers,
       members: []
     }
-
-    if (doc.lastOrderDate) {
-      club.lastOrderDate = doc.lastOrderDate.toISOString()
-    }
-
-    return club
   }
 
   public mapToClubMember(docRef: string, doc: ClubUserModel): ClubMember {
+    console.log('blubUser', doc)
     return {
       userId: docRef,
-      name: doc.name
+      name: doc.name,
+      isAdmin: doc.isAdmin
     }
   }
 }
