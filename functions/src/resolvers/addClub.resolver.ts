@@ -1,6 +1,7 @@
 import { injectable } from 'inversify'
 import { Context, BaseModel, UserModel, ClubModel } from '../models/firestore.models'
 import { AddClubMutationArgs, Club } from '../models/graphql.models'
+import Resolver from './resolver'
 import FirestoreMapper from '../mappers/firestore.mapper'
 import GraphqlMapper from '../mappers/graphql.mapper'
 import UserDao from '../daos/user.dao'
@@ -8,7 +9,7 @@ import ClubDao from '../daos/club.dao'
 import ClubUserDao from '../daos/clubUser.dao'
 
 @injectable()
-export default class AddClubResolver {
+export default class AddClubResolver implements Resolver {
 
   public constructor(
     private firestoreMapper: FirestoreMapper,
@@ -31,7 +32,7 @@ export default class AddClubResolver {
     const club: BaseModel<ClubModel> = await this.clubDao.createClub(ctx, this.firestoreMapper.mapToClubModel(admin.data))
 
     await this.userDao.updateUserClubId(ctx, adminId, club.id)
-    await this.clubUserDao.createClubUser(ctx, club.id, admin.id, this.firestoreMapper.mapToClubUserModel(admin.data))
+    await this.clubUserDao.createClubUser(ctx, club.id, admin.id, this.firestoreMapper.mapToClubUserModel(admin.data, true))
 
     return this.graphqlMapper.mapToClub(club.id, club.data)
   }

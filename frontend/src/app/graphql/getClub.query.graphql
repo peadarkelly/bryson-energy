@@ -3,10 +3,10 @@ query getClub($clubId: ID) {
     clubId
     admin
     createdDate
-    lastOrderDate
     numberOfMembers
     members {
       name
+      isAdmin
     }
   }
 }

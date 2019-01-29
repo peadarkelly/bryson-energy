@@ -1,0 +1,17 @@
+query getUserAccount($userId: ID!) {
+  getUser(userId: $userId) {
+    userId,
+    firstName
+    surname
+    email
+    club {
+      admin
+      createdDate
+      numberOfMembers
+      members {
+        name
+        isAdmin
+      }
+    }
+  }
+}

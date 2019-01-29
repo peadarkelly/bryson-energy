@@ -5,6 +5,8 @@
 
   <ion-button (click)="joinClub()" expand="block">Join club</ion-button>
 
+  <ion-spinner *ngIf="!club" name="bubbles" color="primary"></ion-spinner>
+
   <div *ngIf="club">
     <ion-list>
       <ion-list-header>
@@ -24,13 +26,6 @@
           <p>{{ club.createdDate | date:'fullDate' }}</p>
         </ion-label>
       </ion-item>
-
-      <ion-item *ngIf="club.lastOrderDate">
-        <ion-label>
-          <h2>Last order date</h2>
-          <p>{{ club.lastOrderDate | date:'fullDate' }}</p>
-        </ion-label>
-      </ion-item>
     </ion-list>
 
     <ion-list>
@@ -40,8 +35,9 @@
 
       <ion-item *ngFor="let member of club.members">
         <ion-label>
-          <h2>{{ member.name }}</h2>
+          {{ member.name }}
         </ion-label>
+        <ion-badge *ngIf="member.isAdmin" color="primary" slot="end">Admin</ion-badge>
       </ion-item>
     </ion-list>
   </div>

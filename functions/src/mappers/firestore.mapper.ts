@@ -27,9 +27,10 @@ export default class FirestoreMapper {
     }
   }
 
-  public mapToClubUserModel(user: UserModel): ClubUserModel {
+  public mapToClubUserModel(user: UserModel, isAdmin: boolean): ClubUserModel {
     return {
-      name: `${user.firstName} ${user.surname}`
+      name: `${user.firstName} ${user.surname}`,
+      isAdmin: isAdmin
     }
   }
 }

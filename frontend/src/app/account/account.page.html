@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Account
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-spinner *ngIf="!account" name="bubbles" color="primary"></ion-spinner>
+
+  <div *ngIf="account">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>User information</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>
+          <h2>Name</h2>
+          <p>{{ account.firstName }} {{ account.surname }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Email</h2>
+          <p>{{ account.email }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Club information</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>
+          <h2>Admin</h2>
+          <p>{{ account.club.admin }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Created date</h2>
+          <p>{{ account.club.createdDate | date:'fullDate' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>{{ account.club.numberOfMembers }} members</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let member of account.club.members">
+        <ion-label>
+          {{ member.name }}
+        </ion-label>
+        <ion-badge *ngIf="member.isAdmin" color="primary" slot="end">Admin</ion-badge>
+      </ion-item>
+    </ion-list>
+
+    <ion-button (click)="signOut()" expand="block" color="secondary">Sign out</ion-button>
+
+    <ion-button (click)="deleteAccount()" expand="block" color="danger">Delete account</ion-button>
+  </div>
+</ion-content>

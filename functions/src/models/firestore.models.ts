@@ -27,10 +27,10 @@ export interface ClubModel {
   clubId?: string
   admin: string
   createdDate: Date
-  lastOrderDate?: Date
   numberOfMembers: number
 }
 
 export interface ClubUserModel {
   name: string
+  isAdmin: boolean
 }
