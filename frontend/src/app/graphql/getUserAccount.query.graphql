@@ -5,6 +5,8 @@ query getUserAccount($userId: ID!) {
     surname
     email
     club {
+      admin
+      createdDate
       numberOfMembers
       members {
         name

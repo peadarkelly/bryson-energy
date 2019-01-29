@@ -1,6 +1,7 @@
 query getClub($clubId: ID) {
   getClubs(clubId: $clubId) {
     clubId
+    admin
     createdDate
     numberOfMembers
     members {

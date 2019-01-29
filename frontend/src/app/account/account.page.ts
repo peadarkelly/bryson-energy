@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { GetUserAccountGQL, GetUserAccount } from '../graphql/generated'
 import { ApolloQueryResult } from 'apollo-client'
 import { Storage } from '@ionic/storage'
+import { NavController, AlertController } from '@ionic/angular'
+import { AngularFireAuth } from '@angular/fire/auth'
 
 @Component({
   selector: 'app-account',
@@ -13,6 +15,9 @@ export class AccountPage implements OnInit {
   public account: GetUserAccount.GetUser
 
   public constructor(
+    private navCtrl: NavController,
+    private alertCtrl: AlertController,
+    private authService: AngularFireAuth,
     private storage: Storage,
     private getUserAccountGQL: GetUserAccountGQL) {}
 
@@ -22,6 +27,53 @@ export class AccountPage implements OnInit {
         this.account = data.getUser
       })
     })
+  }
+
+  public async signOut(): Promise<void> {
+    await this.authService.auth.signOut()
+    this.clearSessionAndRedirectToLogin()
+  }
+
+  public async deleteAccount(): Promise<void> {
+    await this.presentAlertConfirm()
+  }
+
+  private async presentAlertConfirm() {
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure you want to delete your account?',
+      message: 'This action cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
+          text: 'Delete account',
+          cssClass: 'delete-account',
+          handler: () => this.confirmDeleteAccount()
+        }
+      ]
+    })
+
+    await alert.present()
+  }
+
+  private async confirmDeleteAccount(): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Account deleted',
+      buttons: ['OK']
+    })
+
+    alert.present()
+
+    this.clearSessionAndRedirectToLogin()
+  }
+
+  private async clearSessionAndRedirectToLogin(): Promise<void> {
+    await this.storage.remove('club')
+    await this.storage.remove('user')
+    await this.navCtrl.navigateBack('/login')
   }
 
 }

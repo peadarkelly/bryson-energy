@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { NavController } from '@ionic/angular'
+import { NavController, LoadingController, AlertController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { AngularFireAuth } from '@angular/fire/auth'
 import { auth } from 'firebase'
@@ -18,10 +18,11 @@ export class LoginPage implements OnInit {
 
   public submitted = false
   public loginForm: FormGroup
-  public loginError: string
 
   public constructor(
     private navCtrl: NavController,
+    private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
     private authService: AngularFireAuth,
     private storage: Storage,
     private getUserSessionGQL: GetUserSessionGQL) { }
@@ -37,13 +38,24 @@ export class LoginPage implements OnInit {
     })
   }
 
+  private clearSession(): void {
+    this.storage.remove('user')
+    this.storage.remove('register.details')
+    this.storage.remove('register.address')
+  }
+
   public async submit(): Promise<void> {
     this.submitted = true
-    this.loginError = ''
 
     if (this.loginForm.invalid) {
       return
     }
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Signing in...'
+    })
+
+    await loading.present()
 
     const email: string = this.loginForm.get('email').value
     const password: string = this.loginForm.get('password').value
@@ -59,21 +71,33 @@ export class LoginPage implements OnInit {
         } else {
           this.navCtrl.navigateForward('/register/clubs')
         }
+
+        loading.dismiss()
       })
     } catch (err) {
       this.handleError(err)
+      loading.dismiss()
     }
   }
 
-  private clearSession(): void {
-    this.storage.remove('user')
-    this.storage.remove('register.details')
-    this.storage.remove('register.address')
+  private async handleError(err): Promise<void> {
+    console.error(err)
+
+    const alert = await this.alertCtrl.create({
+      header: this.getErrorHeader(err),
+      message: this.getErrorMessage(err),
+      buttons: ['OK']
+    })
+
+    alert.present()
   }
 
-  private handleError(err): void {
-    console.error(err)
-    this.loginError = (err.code === LoginPage.CREDENTIALS_ERROR_CODE) ? 'Incorrect email address or password' : 'Something went wrong'
+  private getErrorHeader(err): string {
+    return (err.code === LoginPage.CREDENTIALS_ERROR_CODE) ? 'Invalid credentials' : 'Something went wrong'
+  }
+
+  private getErrorMessage(err): string {
+    return (err.code === LoginPage.CREDENTIALS_ERROR_CODE) ? 'Incorrect email address or password' : 'Please try again'
   }
 
   get f() { return this.loginForm.controls }

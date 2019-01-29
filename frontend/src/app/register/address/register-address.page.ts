@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { NavController, AlertController } from '@ionic/angular'
+import { NavController, AlertController, LoadingController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { Storage } from '@ionic/storage'
 import { AngularFireAuth } from '@angular/fire/auth'
@@ -22,6 +22,7 @@ export class RegisterAddressPage implements OnInit {
 
   public constructor(
     private navCtrl: NavController,
+    private loadingCtrl: LoadingController,
     private storage: Storage,
     private authService: AngularFireAuth,
     private alertCtrl: AlertController,
@@ -64,6 +65,12 @@ export class RegisterAddressPage implements OnInit {
       return
     }
 
+    const loading = await this.loadingCtrl.create({
+      message: 'Registering...'
+    })
+
+    await loading.present()
+
     await this.saveToSession()
 
     try {
@@ -72,11 +79,14 @@ export class RegisterAddressPage implements OnInit {
         await this.storage.remove('register.details')
         await this.storage.remove('register.address')
 
+        loading.dismiss()
+
         this.showAlert('Registration successful!', 'Your account has been created successfully.')
 
         this.navCtrl.navigateRoot('/register/clubs')
       })
     } catch (err) {
+      loading.dismiss()
       this.handleError(err)
     }
   }
