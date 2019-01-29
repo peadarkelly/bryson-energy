@@ -1,0 +1,5 @@
+mutation addClub($adminId: ID!) {
+  addClub(adminId: $adminId) {
+    clubId
+  }
+}
