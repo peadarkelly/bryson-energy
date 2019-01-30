@@ -12,5 +12,4 @@ export default class ClubOrderDao extends BaseDao<ClubOrderModel> {
 
     return super.mapToResult(orderSnap)
   }
-
 }

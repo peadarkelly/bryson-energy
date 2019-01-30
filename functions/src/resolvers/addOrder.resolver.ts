@@ -22,7 +22,7 @@ export default class AddOrderResolver implements Resolver {
       throw new Error('clubId does not exist')
     }
 
-    const clubOrder: BaseModel<ClubOrderModel> = await this.clubOrderDao.createClubOrder(ctx, clubId, this.firestoreMapper.mapToClubOrderrModel(new Date(deadlineDate)))
+    const clubOrder: BaseModel<ClubOrderModel> = await this.clubOrderDao.createClubOrder(ctx, clubId, this.firestoreMapper.mapToClubOrderModel(new Date(deadlineDate)))
 
     return this.graphqlMapper.mapToOrder(clubOrder.id, clubOrder.data)
   }

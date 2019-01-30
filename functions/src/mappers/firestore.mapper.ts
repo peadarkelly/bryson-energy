@@ -34,7 +34,7 @@ export default class FirestoreMapper {
     }
   }
 
-  public mapToClubOrderrModel(deadlineDate: Date): ClubOrderModel {
+  public mapToClubOrderModel(deadlineDate: Date): ClubOrderModel {
     return {
       deadlineDate: deadlineDate,
       totalVolume: 0,
