@@ -31,6 +31,13 @@ const typeDefs: ITypeDefinitions = gql`
     isAdmin: Boolean!
   }
 
+  type Order {
+    orderId: ID!
+    deadlineDate: String!
+    totalVolume: Int!
+    numberOfParticipants: Int!
+  }
+
   type Query {
     getUser(userId: ID!): User!
 
@@ -54,6 +61,8 @@ const typeDefs: ITypeDefinitions = gql`
     addClub(adminId: ID!): Club!
 
     joinClub(userId: ID!, clubId: ID!): User!
+
+    addOrder(clubId: ID!, deadlineDate: String!): Order!
   }
 
   schema {

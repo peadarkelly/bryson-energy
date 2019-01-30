@@ -9,6 +9,7 @@ import UserClubResolver from './userClub.resolver'
 import AddUserResolver from './addUser.resolver'
 import AddClubResolver from './addClub.resolver'
 import JoinClubResolver from './joinClub.resolver'
+import AddOrderResolver from './addOrder.resolver'
 
 export default {
   Query: {
@@ -24,7 +25,8 @@ export default {
   Mutation: {
     addUser: getResolver(AddUserResolver),
     addClub: getResolver(AddClubResolver),
-    joinClub: getResolver(JoinClubResolver)
+    joinClub: getResolver(JoinClubResolver),
+    addOrder: getResolver(AddOrderResolver)
   }
 }
 

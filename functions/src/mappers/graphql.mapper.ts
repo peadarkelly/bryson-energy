@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
-import { User, Club, ClubMember } from '../models/graphql.models'
-import { UserModel, ClubModel, ClubUserModel } from '../models/firestore.models'
+import { User, Club, ClubMember, Order } from '../models/graphql.models'
+import { UserModel, ClubModel, ClubUserModel, ClubOrderModel } from '../models/firestore.models'
 
 @injectable()
 export default class GraphqlMapper {
@@ -32,11 +32,19 @@ export default class GraphqlMapper {
   }
 
   public mapToClubMember(docRef: string, doc: ClubUserModel): ClubMember {
-    console.log('blubUser', doc)
     return {
       userId: docRef,
       name: doc.name,
       isAdmin: doc.isAdmin
+    }
+  }
+
+  public mapToOrder(docRef: string, doc: ClubOrderModel): Order {
+    return {
+      orderId: docRef,
+      deadlineDate: doc.deadlineDate.toISOString(),
+      totalVolume: doc.totalVolume,
+      numberOfParticipants: doc.numberOfParticipants
     }
   }
 }

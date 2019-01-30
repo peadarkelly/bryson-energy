@@ -34,3 +34,9 @@ export interface ClubUserModel {
   name: string
   isAdmin: boolean
 }
+
+export interface ClubOrderModel {
+  deadlineDate: Date
+  totalVolume: number
+  numberOfParticipants: number
+}
