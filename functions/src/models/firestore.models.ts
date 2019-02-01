@@ -34,3 +34,16 @@ export interface ClubUserModel {
   name: string
   isAdmin: boolean
 }
+
+export interface ClubOrderModel {
+  deadlineDate: Date
+  totalVolume: number
+  numberOfParticipants: number
+}
+
+export interface OrderUserModel {
+  name: string
+  volume: number
+  cost: number
+  cashback?: number
+}
