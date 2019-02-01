@@ -1,5 +1,5 @@
 import { injectable } from 'inversify'
-import { UserModel, ClubModel, ClubUserModel, ClubOrderModel } from '../models/firestore.models'
+import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../models/firestore.models'
 import { AddUserMutationArgs } from '../models/graphql.models'
 
 @injectable()
@@ -39,6 +39,14 @@ export default class FirestoreMapper {
       deadlineDate: deadlineDate,
       totalVolume: 0,
       numberOfParticipants: 0
+    }
+  }
+
+  public mapToOrderUserModel(user: UserModel, volume: number): OrderUserModel {
+    return {
+      name: `${user.firstName} ${user.surname}`,
+      volume: volume,
+      cost: 0
     }
   }
 }

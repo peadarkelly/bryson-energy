@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
-import { User, Club, ClubMember, Order } from '../models/graphql.models'
-import { UserModel, ClubModel, ClubUserModel, ClubOrderModel } from '../models/firestore.models'
+import { User, Club, ClubMember, Order, OrderParticipant } from '../models/graphql.models'
+import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../models/firestore.models'
 
 @injectable()
 export default class GraphqlMapper {
@@ -27,7 +27,8 @@ export default class GraphqlMapper {
       admin: doc.admin,
       createdDate: doc.createdDate.toISOString(),
       numberOfMembers: doc.numberOfMembers,
-      members: []
+      members: [],
+      orders: []
     }
   }
 
@@ -44,7 +45,18 @@ export default class GraphqlMapper {
       orderId: docRef,
       deadlineDate: doc.deadlineDate.toISOString(),
       totalVolume: doc.totalVolume,
-      numberOfParticipants: doc.numberOfParticipants
+      numberOfParticipants: doc.numberOfParticipants,
+      participants: []
+    }
+  }
+
+  public mapToOrderParticipant(docRef: string, doc: OrderUserModel): OrderParticipant {
+    return {
+      userId: docRef,
+      name: doc.name,
+      volume: doc.volume,
+      cost: doc.cost,
+      cashback: doc.cashback || 0
     }
   }
 }

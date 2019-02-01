@@ -5,7 +5,7 @@ import Resolver from './resolver'
 import FirestoreMapper from '../mappers/firestore.mapper'
 import GraphqlMapper from '../mappers/graphql.mapper'
 import ClubDao from '../daos/club.dao'
-import ClubOrderDao from '../daos/order.dao'
+import ClubOrderDao from '../daos/clubOrder.dao'
 
 @injectable()
 export default class AddOrderResolver implements Resolver {

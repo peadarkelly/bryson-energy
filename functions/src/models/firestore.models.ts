@@ -40,3 +40,10 @@ export interface ClubOrderModel {
   totalVolume: number
   numberOfParticipants: number
 }
+
+export interface OrderUserModel {
+  name: string
+  volume: number
+  cost: number
+  cashback?: number
+}

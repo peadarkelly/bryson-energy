@@ -23,6 +23,7 @@ const typeDefs: ITypeDefinitions = gql`
     createdDate: String!
     numberOfMembers: Int!
     members: [ClubMember!]!
+    orders: [Order!]!
   }
 
   type ClubMember {
@@ -36,6 +37,15 @@ const typeDefs: ITypeDefinitions = gql`
     deadlineDate: String!
     totalVolume: Int!
     numberOfParticipants: Int!
+    participants: [OrderParticipant]!
+  }
+
+  type OrderParticipant {
+    userId: ID!
+    name: String!
+    volume: Int!
+    cost: Float!
+    cashback: Float!
   }
 
   type Query {
@@ -63,6 +73,12 @@ const typeDefs: ITypeDefinitions = gql`
     joinClub(userId: ID!, clubId: ID!): User!
 
     addOrder(clubId: ID!, deadlineDate: String!): Order!
+
+    joinOrder(
+      userId: ID!,
+      orderId: ID!,
+      volume: Int!
+    ): Order!
   }
 
   schema {
