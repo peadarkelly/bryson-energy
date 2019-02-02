@@ -1,0 +1,11 @@
+query getOrderSummary($userId: ID!) {
+  getUser(userId: $userId) {
+    club {
+      orders {
+        orderId
+        deadlineDate
+        numberOfParticipants
+      }
+    }
+  }
+}

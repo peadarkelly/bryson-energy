@@ -1,0 +1,19 @@
+query getOrderDetails($userId: ID!) {
+  getUser(userId: $userId) {
+    club {
+      orders {
+        orderId
+        deadlineDate
+        totalVolume
+        numberOfParticipants
+        participants {
+          userId
+          name
+          volume
+          cost
+          cashback
+        }
+      }
+    }
+  }
+}

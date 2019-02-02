@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Orders
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-segment [(ngModel)]="selectedSegment">
+    <ion-segment-button value="open">
+      <ion-label>In progress</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="all">
+      <ion-label>Completed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-spinner *ngIf="loading" name="bubbles" color="primary"></ion-spinner>
+
+  <div [ngSwitch]="selectedSegment">
+    <div *ngSwitchCase="'open'">
+      <div *ngFor="let order of inProgressOrders">
+        <app-order-summary [order]="order" (viewOrder)="onViewOrder($event)"></app-order-summary>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'all'">
+      <div *ngFor="let order of completedOrders">
+        <app-order-summary [order]="order" (viewOrder)="onViewOrder($event)"></app-order-summary>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,11 @@
+mutation addOrder(
+  $clubId: ID!,
+  $deadlineDate: String!
+) {
+  addOrder(
+    clubId: $clubId,
+    deadlineDate: $deadlineDate
+  ) {
+    orderId
+  }
+}

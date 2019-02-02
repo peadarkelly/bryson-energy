@@ -7,7 +7,7 @@ import { TabsPageRoutingModule } from './tabs.router.module'
 
 import { TabsPage } from './tabs.page'
 import { AccountPageModule } from '../account/account.module'
-import { HomePageModule } from '../home/home.module'
+import { OrdersPageModule } from '../orders/orders.module'
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { HomePageModule } from '../home/home.module'
     CommonModule,
     FormsModule,
     TabsPageRoutingModule,
-    HomePageModule,
+    OrdersPageModule,
     AccountPageModule
   ],
   declarations: [TabsPage]

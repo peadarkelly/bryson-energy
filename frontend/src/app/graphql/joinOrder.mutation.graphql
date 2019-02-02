@@ -1,0 +1,13 @@
+mutation joinOrder(
+  $userId: ID!,
+  $orderId: ID!,
+  $volume: Int!
+) {
+  joinOrder(
+    userId: $userId,
+    orderId: $orderId,
+    volume: $volume
+  ) {
+    orderId
+  }
+}
