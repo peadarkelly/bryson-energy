@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button defaultHref="/orders/{{ orderId }}" color="light"></ion-back-button>
+
+    <ion-title>Place order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <h2 padding>Place order</h2>
+
+  <h3 padding>How many litres of oil would you like?</h3>
+
+  <form [formGroup]="orderForm" (ngSubmit)="joinOrder()">
+    <div [class.form-group-error]="submitted && f.volume.errors">
+      <div *ngIf="submitted && f.volume.errors" class="error-message">
+        <span *ngIf="submitted && f.volume.errors.required">You must provide a volume</span>
+        <span *ngIf="submitted && f.volume.errors.min">The minimum order is 100 litres</span>
+        <span *ngIf="submitted && f.volume.errors.max">The maximum order is 500 litres</span>
+      </div>
+
+      <ion-item>
+        <ion-input formControlName="volume" required type="number" placeholder="0"></ion-input>
+      </ion-item>
+    </div>
+
+    <p>Total cost: £{{ calculateCost() }}</p>
+
+    <ion-button type="submit" expand="block" color="primary">Join order</ion-button>
+  </form>
+</ion-content>

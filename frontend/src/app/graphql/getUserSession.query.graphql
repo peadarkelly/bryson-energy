@@ -1,6 +1,12 @@
 query getUserSession($userId: ID!) {
   getUser(userId: $userId) {
-    userId,
-    clubId
+    userId
+    club {
+      clubId
+      members {
+        userId
+        isAdmin
+      }
+    }
   }
 }

@@ -1,5 +1,11 @@
 mutation joinClub($userId: ID!, $clubId: ID!) {
   joinClub(userId: $userId, clubId: $clubId) {
-    clubId
+    club {
+      clubId
+      members {
+        userId
+        isAdmin
+      }
+    }
   }
 }

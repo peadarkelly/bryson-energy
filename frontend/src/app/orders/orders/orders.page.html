@@ -25,6 +25,13 @@
       <div *ngFor="let order of inProgressOrders">
         <app-order-summary [order]="order" (viewOrder)="onViewOrder($event)"></app-order-summary>
       </div>
+
+      <div *ngIf="!loading && isAdmin && inProgressOrders.length === 0">
+        <p>There are no currently no in progress orders.</p>
+        <p>As a club admin you can initiate an order below</p>
+
+        <ion-button (click)="initiateOrder()" expand="block" color="primary">Initiate order</ion-button>
+      </div>
     </div>
 
     <div *ngSwitchCase="'all'">

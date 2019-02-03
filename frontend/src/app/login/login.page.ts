@@ -40,6 +40,7 @@ export class LoginPage implements OnInit {
 
   private clearSession(): void {
     this.storage.remove('user')
+    this.storage.remove('isAdmin')
     this.storage.remove('register.details')
     this.storage.remove('register.address')
   }
@@ -65,8 +66,9 @@ export class LoginPage implements OnInit {
       this.getUserSessionGQL.fetch({ userId: response.user.uid }).subscribe(async ({ data }: ApolloQueryResult<GetUserSession.Query>) => {
         await this.storage.set('user', data.getUser.userId)
 
-        if (data.getUser.clubId) {
-          await this.storage.set('club', data.getUser.clubId)
+        if (data.getUser.club.clubId) {
+          await this.storage.set('club', data.getUser.club.clubId)
+          await this.storage.set('isAdmin', this.isClubAdmin(data.getUser))
           this.navCtrl.navigateForward('/tabs')
         } else {
           this.navCtrl.navigateForward('/register/clubs')
@@ -78,6 +80,10 @@ export class LoginPage implements OnInit {
       this.handleError(err)
       loading.dismiss()
     }
+  }
+
+  private isClubAdmin(userSession: GetUserSession.GetUser): boolean {
+    return userSession.club.members.filter(member => member.userId === userSession.userId)[0].isAdmin
   }
 
   private async handleError(err): Promise<void> {

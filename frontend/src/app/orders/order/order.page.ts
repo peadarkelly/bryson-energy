@@ -48,7 +48,6 @@ export class OrderPage implements OnInit {
   }
 
   public joinOrder(): void {
-    console.log('join order')
+    this.navCtrl.navigateForward(`/orders/${this.order.orderId}/join`)
   }
-
 }

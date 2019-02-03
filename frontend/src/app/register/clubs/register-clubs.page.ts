@@ -61,7 +61,10 @@ export class RegisterClubsPage implements OnInit {
 
     this.addClubGQL.mutate({ adminId: user }).subscribe(({ data }) => {
       this.storage.set('club', data.addClub.clubId)
+      this.storage.set('isAdmin', true)
+
       loading.dismiss()
+
       this.showConfirmationAlert()
       this.navCtrl.navigateRoot('/tabs')
     })
