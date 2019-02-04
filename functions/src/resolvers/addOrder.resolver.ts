@@ -17,12 +17,12 @@ export default class AddOrderResolver implements Resolver {
     private clubOrderDao: ClubOrderDao
   ) {}
 
-  public async resolve(parent: null, { clubId, deadlineDate }: AddOrderMutationArgs, ctx: Context): Promise<Order> {
-    if (!(await this.clubDao.getClub(ctx, clubId))) {
+  public async resolve(parent: null, { input }: AddOrderMutationArgs, ctx: Context): Promise<Order> {
+    if (!(await this.clubDao.getClub(ctx, input.clubId))) {
       throw new Error('clubId does not exist')
     }
 
-    const clubOrder: BaseModel<ClubOrderModel> = await this.clubOrderDao.createClubOrder(ctx, clubId, this.firestoreMapper.mapToClubOrderModel(new Date(deadlineDate)))
+    const clubOrder: BaseModel<ClubOrderModel> = await this.clubOrderDao.createClubOrder(ctx, input.clubId, this.firestoreMapper.mapToClubOrderModel(input))
 
     return this.graphqlMapper.mapToOrder(clubOrder.id, clubOrder.data)
   }

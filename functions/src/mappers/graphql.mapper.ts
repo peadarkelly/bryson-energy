@@ -44,7 +44,9 @@ export default class GraphqlMapper {
     return {
       orderId: docRef,
       deadlineDate: doc.deadlineDate.toISOString(),
+      deliveryDate: doc.deliveryDate.toISOString(),
       totalVolume: doc.totalVolume,
+      status: null,
       numberOfParticipants: doc.numberOfParticipants,
       participants: []
     }

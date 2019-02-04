@@ -1,19 +1,19 @@
 import { injectable } from 'inversify'
-import { GetUserQueryArgs, User } from '../models/graphql.models'
+import { UserQueryArgs, User } from '../models/graphql.models'
 import { Context, BaseModel, UserModel } from '../models/firestore.models'
 import Resolver from './resolver'
 import GraphqlMapper from '../mappers/graphql.mapper'
 import UserDao from '../daos/user.dao'
 
 @injectable()
-export default class GetUserResolver implements Resolver {
+export default class UserResolver implements Resolver {
 
   public constructor(
     private graphqlMapper: GraphqlMapper,
     private userDao: UserDao
   ) {}
 
-  public async resolve(parent: null, { userId }: GetUserQueryArgs, ctx: Context): Promise<User> {
+  public async resolve(parent: null, { userId }: UserQueryArgs, ctx: Context): Promise<User> {
     const user: BaseModel<UserModel> = await this.userDao.getUser(ctx, userId)
 
     if (!user) {

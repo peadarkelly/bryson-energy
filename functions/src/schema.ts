@@ -35,7 +35,9 @@ const typeDefs: ITypeDefinitions = gql`
   type Order {
     orderId: ID!
     deadlineDate: String!
+    deliveryDate: String!
     totalVolume: Int!
+    status: OrderStatus!
     numberOfParticipants: Int!
     participants: [OrderParticipant]!
   }
@@ -48,37 +50,54 @@ const typeDefs: ITypeDefinitions = gql`
     cashback: Float!
   }
 
-  type Query {
-    getUser(userId: ID!): User!
+  enum OrderStatus {
+    OPEN
+    DELIVERY_DUE
+    COMPLETED
+  }
 
-    getClubs(clubId: ID): [Club!]!
+  input UserInput {
+    userId: ID!
+    firstName: String!
+    surname: String!
+    email: String!
+    contact: String!
+    houseNumber: Int!
+    addressLine1: String!
+    addressLine2: String
+    city: String!
+    postcode: String!
+  }
+
+  input OrderInput {
+    clubId: ID!
+    deadlineDate: String!
+    deliveryDate: String!
+  }
+
+  input JoinOrderInput {
+    userId: ID!
+    orderId: ID!
+    volume: Int!
+    cost: Float!
+  }
+
+  type Query {
+    user(userId: ID!): User!
+
+    clubs(clubId: ID): [Club!]!
   }
 
   type Mutation {
-    addUser(
-      userId: ID!,
-      firstName: String!,
-      surname: String!,
-      email: String!,
-      contact: String!,
-      houseNumber: Int!,
-      addressLine1: String!,
-      addressLine2: String,
-      city: String!,
-      postcode: String!
-    ): User!
+    addUser(input: UserInput!): User!
 
     addClub(adminId: ID!): Club!
 
     joinClub(userId: ID!, clubId: ID!): User!
 
-    addOrder(clubId: ID!, deadlineDate: String!): Order!
+    addOrder(input: OrderInput!): Order!
 
-    joinOrder(
-      userId: ID!,
-      orderId: ID!,
-      volume: Int!
-    ): Order!
+    joinOrder(input: JoinOrderInput!): Order!
   }
 
   schema {

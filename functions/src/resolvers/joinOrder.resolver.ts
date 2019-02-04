@@ -19,19 +19,20 @@ export default class JoinOrderResolver implements Resolver {
     private orderUserDao: OrderUserDao
   ) {}
 
-  public async resolve(parent: null, { userId, orderId, volume }: JoinOrderMutationArgs, ctx: Context): Promise<Order> {
-    const user: BaseModel<UserModel> = await this.userDao.getUser(ctx, userId)
+  public async resolve(parent: null, { input }: JoinOrderMutationArgs, ctx: Context): Promise<Order> {
+    const user: BaseModel<UserModel> = await this.userDao.getUser(ctx, input.userId)
     if (!user) {
       throw new Error('userId does not exist')
     }
 
+    const orderId: string = input.orderId
     const clubOrder: BaseModel<ClubOrderModel> = await this.clubOrderDao.getClubOrder(ctx, user.data.clubId, orderId)
     if (!clubOrder) {
       throw new Error('orderId does not exist')
     }
 
-    await this.orderUserDao.createOrderUser(ctx, orderId, user.id, this.firestoreMapper.mapToOrderUserModel(user.data, volume))
-    await this.clubOrderDao.updateOrderTotals(ctx, user.data.clubId, orderId, clubOrder.data, volume)
+    await this.orderUserDao.createOrderUser(ctx, orderId, user.id, this.firestoreMapper.mapToOrderUserModel(user.data, input))
+    await this.clubOrderDao.updateOrderTotals(ctx, user.data.clubId, orderId, clubOrder.data, input.volume)
 
     const updatedClubOrder: BaseModel<ClubOrderModel> = await this.clubOrderDao.getClubOrder(ctx, user.data.clubId, orderId)
 

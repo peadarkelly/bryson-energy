@@ -37,6 +37,7 @@ export interface ClubUserModel {
 
 export interface ClubOrderModel {
   deadlineDate: Date
+  deliveryDate: Date
   totalVolume: number
   numberOfParticipants: number
 }
