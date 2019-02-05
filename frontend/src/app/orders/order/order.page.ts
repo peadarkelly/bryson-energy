@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from '@ionic/angular'
-import { GetOrderDetailsGQL, GetOrderDetails } from '../../graphql/generated'
+import { OrderDetailsGQL, OrderDetails } from '../../graphql/generated'
 import { ApolloQueryResult } from 'apollo-client'
 import { Storage } from '@ionic/storage'
 
@@ -11,13 +11,13 @@ import { Storage } from '@ionic/storage'
 })
 export class OrderPage implements OnInit {
 
-  public order: GetOrderDetails.Orders
-  public userOrder: GetOrderDetails.Participants
+  public order: OrderDetails.Orders
+  public userOrder: OrderDetails.Participants
 
   public constructor(
     private navCtrl: NavController,
     private storage: Storage,
-    private getOrderDetailsGQL: GetOrderDetailsGQL
+    private orderDetailsGQL: OrderDetailsGQL
   ) {}
 
   public ngOnInit() {
@@ -27,18 +27,18 @@ export class OrderPage implements OnInit {
   private async fetchOrder(): Promise<void> {
     const user: string = await this.storage.get('user')
 
-    this.getOrderDetailsGQL.fetch({ userId: user }).subscribe(async ({ data }: ApolloQueryResult<GetOrderDetails.Query>) => {
-      const order: GetOrderDetails.Orders = data.getUser.club.orders[0]
+    this.orderDetailsGQL.fetch({ userId: user }).subscribe(async ({ data }: ApolloQueryResult<OrderDetails.Query>) => {
+      const order: OrderDetails.Orders = data.user.club.orders[0]
 
       this.userOrder = await this.getParticipantInfo(order)
       this.order = order
     })
   }
 
-  private async getParticipantInfo(order: GetOrderDetails.Orders): Promise<GetOrderDetails.Participants> {
+  private async getParticipantInfo(order: OrderDetails.Orders): Promise<OrderDetails.Participants> {
     const user = await this.storage.get('user')
 
-    const filteredParticipants: GetOrderDetails.Participants[] = order.participants.filter(p => p.userId === user)
+    const filteredParticipants: OrderDetails.Participants[] = order.participants.filter(p => p.userId === user)
 
     if (filteredParticipants.length > 0) {
       return filteredParticipants[0]

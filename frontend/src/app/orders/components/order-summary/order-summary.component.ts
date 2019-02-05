@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core'
-import { GetOrderSummary } from '../../../graphql/generated'
+import { OrderSummary } from '../../../graphql/generated'
 
 @Component({
   selector: 'app-order-summary',
@@ -8,11 +8,11 @@ import { GetOrderSummary } from '../../../graphql/generated'
 })
 export class OrderSummaryComponent {
 
-  @Input() public order: GetOrderSummary.Orders
+  @Input() public order: OrderSummary.Orders
 
-  @Output() viewOrder = new EventEmitter<GetOrderSummary.Orders>()
+  @Output() viewOrder = new EventEmitter<OrderSummary.Orders>()
 
-  public view(order: GetOrderSummary.Orders): void {
+  public view(order: OrderSummary.Orders): void {
     this.viewOrder.emit(order)
   }
 }

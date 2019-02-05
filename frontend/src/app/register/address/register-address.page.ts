@@ -114,16 +114,18 @@ export class RegisterAddressPage implements OnInit {
 
   private getVariables(userId: string, details: RegisterDetailsData, address: RegisterAddressData): AddUser.Variables {
     return {
-      userId: userId,
-      firstName: details.firstName,
-      surname: details.surname,
-      email: details.email,
-      contact: details.contact,
-      houseNumber: address.houseNumber,
-      addressLine1: address.addressLine1,
-      addressLine2: address.addressLine2,
-      city: address.city,
-      postcode: address.postcode
+      input: {
+        userId: userId,
+        firstName: details.firstName,
+        surname: details.surname,
+        email: details.email,
+        contact: details.contact,
+        houseNumber: address.houseNumber,
+        addressLine1: address.addressLine1,
+        addressLine2: address.addressLine2,
+        city: address.city,
+        postcode: address.postcode
+      }
     }
   }
 

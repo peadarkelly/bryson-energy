@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { GetOrderSummary } from '../../../graphql/generated'
+import { OrderSummary } from '../../../graphql/generated'
 import * as moment from 'moment'
 
 type StatusText = 'Open' | 'Delivery due' | 'Completed'
@@ -17,7 +17,7 @@ interface OrderStatus {
 })
 export class OrderStatusComponent implements OnInit {
 
-  @Input() public order: GetOrderSummary.Orders
+  @Input() public order: OrderSummary.Orders
   public status: OrderStatus
 
   public constructor() {}

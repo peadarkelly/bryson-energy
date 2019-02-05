@@ -3,7 +3,7 @@ import { NavController, LoadingController, AlertController } from '@ionic/angula
 import { ActivatedRoute } from '@angular/router'
 import { Storage } from '@ionic/storage'
 import { ApolloQueryResult } from 'apollo-client'
-import { GetClubGQL, GetClub, JoinClubGQL, JoinClub } from '../../graphql/generated'
+import { ClubGQL, Club, JoinClubGQL, JoinClub } from '../../graphql/generated'
 
 @Component({
   selector: 'app-register-club',
@@ -12,7 +12,7 @@ import { GetClubGQL, GetClub, JoinClubGQL, JoinClub } from '../../graphql/genera
 })
 export class RegisterClubPage implements OnInit {
 
-  public club: GetClub.GetClubs
+  public club: Club.Clubs
 
   private clubId: string
 
@@ -22,13 +22,13 @@ export class RegisterClubPage implements OnInit {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private storage: Storage,
-    private getClubGQL: GetClubGQL,
+    private clubGQL: ClubGQL,
     private joinClubGQL: JoinClubGQL) { }
 
   public ngOnInit() {
     this.clubId = this.route.snapshot.paramMap.get('clubId')
-    this.getClubGQL.fetch({ clubId: this.clubId }).subscribe(({ data }: ApolloQueryResult<GetClub.Query>) => {
-      this.club = data.getClubs[0]
+    this.clubGQL.fetch({ clubId: this.clubId }).subscribe(({ data }: ApolloQueryResult<Club.Query>) => {
+      this.club = data.clubs[0]
     })
   }
 
@@ -60,7 +60,7 @@ export class RegisterClubPage implements OnInit {
     loading.present()
 
     this.joinClubGQL.mutate(await this.getVariables()).subscribe(({ data }) => {
-      this.storage.set('club', data.joinClub.clubId)
+      this.storage.set('club', data.joinClub.club.clubId)
       this.storage.set('isAdmin', false)
 
       loading.dismiss()

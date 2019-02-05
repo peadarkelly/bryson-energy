@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController, LoadingController } from '@ionic/angular'
-import { GetOrderSummaryGQL, GetOrderSummary, AddOrderGQL, AddOrder } from '../../graphql/generated'
+import { OrderSummaryGQL, OrderSummary, AddOrderGQL, AddOrder } from '../../graphql/generated'
 import { ApolloQueryResult } from 'apollo-client'
 import { Storage } from '@ionic/storage'
 import * as moment from 'moment'
@@ -12,8 +12,8 @@ import * as moment from 'moment'
 })
 export class OrdersPage implements OnInit {
 
-  public inProgressOrders: GetOrderSummary.Orders[] = []
-  public completedOrders: GetOrderSummary.Orders[] = []
+  public inProgressOrders: OrderSummary.Orders[] = []
+  public completedOrders: OrderSummary.Orders[] = []
 
   public loading = false
   public isAdmin = false
@@ -25,7 +25,7 @@ export class OrdersPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private storage: Storage,
-    private getOrderSummaryGQL: GetOrderSummaryGQL,
+    private getOrderSummaryGQL: OrderSummaryGQL,
     private addOrderGQL: AddOrderGQL
   ) {}
 
@@ -38,10 +38,10 @@ export class OrdersPage implements OnInit {
     this.loading = true
 
     this.storage.get('user').then(user => {
-      this.getOrderSummaryGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<GetOrderSummary.Query>) => {
-        if (data.getUser.club.orders.length > 0) {
-          this.inProgressOrders = data.getUser.club.orders
-          this.completedOrders = data.getUser.club.orders
+      this.getOrderSummaryGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<OrderSummary.Query>) => {
+        if (data.user.club.orders.length > 0) {
+          this.inProgressOrders = data.user.club.orders
+          this.completedOrders = data.user.club.orders
         }
 
         this.loading = false
@@ -49,19 +49,22 @@ export class OrdersPage implements OnInit {
     })
   }
 
-  public onViewOrder(order: GetOrderSummary.Orders): void {
+  public onViewOrder(order: OrderSummary.Orders): void {
     this.navCtrl.navigateForward(`orders/${order.orderId}`)
   }
 
   public async initiateOrder(): Promise<void> {
     const deadlineDate: Date = this.calculateDeadlineDate()
+    const deliveryDate: Date = this.calculateDeliveryDate()
     const formattedDeadlineDate: string = moment(deadlineDate).format('dddd, MMMM Do, YYYY')
+    const formattedDeliveryDate: string = moment(deliveryDate).format('dddd, MMMM Do, YYYY')
 
     const alert = await this.alertCtrl.create({
       header: `Initiate order`,
       message: `
         <p>Are you sure you want to initiate an order?</p>
         <p>The order deadline date will be <strong>${formattedDeadlineDate}</strong></p>
+        <p>The order delivery date will be <strong>${formattedDeliveryDate}</strong></p>
       `,
       buttons: [
         {
@@ -70,7 +73,7 @@ export class OrdersPage implements OnInit {
         },
         {
           text: 'Confirm',
-          handler: () => this.confirmInitiateOrder(deadlineDate)
+          handler: () => this.confirmInitiateOrder(deadlineDate, deliveryDate)
         }
       ]
     })
@@ -82,20 +85,19 @@ export class OrdersPage implements OnInit {
     return moment().add(3, 'days').hours(18).minutes(30).toDate()
   }
 
-  private async confirmInitiateOrder(deadlineDate: Date): Promise<void> {
+  private calculateDeliveryDate(): Date {
+    return moment().add(6, 'days').hours(14).minutes(30).toDate()
+  }
+
+  private async confirmInitiateOrder(deadlineDate: Date, deliveryDate: Date): Promise<void> {
     const loading = await this.loadingCtrl.create({
       message: 'Initiating order...'
     })
 
     loading.present()
 
-    const club: string = await this.storage.get('club')
-
     this.addOrderGQL
-      .mutate({
-        clubId: club,
-        deadlineDate: deadlineDate.toISOString()
-      })
+      .mutate(await this.getVariables(deadlineDate, deliveryDate))
       .subscribe(({ data }) => {
         loading.dismiss()
 
@@ -103,6 +105,18 @@ export class OrdersPage implements OnInit {
 
         this.navCtrl.navigateRoot(`/orders/${data.addOrder.orderId}`)
       })
+  }
+
+  private async getVariables(deadlineDate: Date, deliveryDate: Date): Promise<AddOrder.Variables> {
+    const club: string = await this.storage.get('club')
+
+    return {
+      input: {
+        clubId: club,
+        deadlineDate: deadlineDate.toISOString(),
+        deliveryDate: deliveryDate.toISOString()
+      }
+    }
   }
 
   private async showConfirmationAlert(): Promise<void> {

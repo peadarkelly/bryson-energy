@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController, LoadingController } from '@ionic/angular'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { GetClubsGQL, GetClubs, AddClubGQL, AddClub } from '../../graphql/generated'
+import { ClubsGQL, Clubs, AddClubGQL } from '../../graphql/generated'
 import { Storage } from '@ionic/storage'
 
 @Component({
@@ -12,7 +12,7 @@ import { Storage } from '@ionic/storage'
 })
 export class RegisterClubsPage implements OnInit {
 
-  public clubs: Observable<GetClubs.GetClubs[]>
+  public clubs: Observable<Clubs.Clubs[]>
 
   public constructor(
     private navCtrl: NavController,
@@ -20,13 +20,13 @@ export class RegisterClubsPage implements OnInit {
     private loadingCtrl: LoadingController,
     private storage: Storage,
     private addClubGQL: AddClubGQL,
-    private getClubsGQL: GetClubsGQL) { }
+    private clubsGQL: ClubsGQL) { }
 
   public ngOnInit() {
-    this.clubs = this.getClubsGQL.fetch().pipe(map(result => result.data.getClubs))
+    this.clubs = this.clubsGQL.fetch().pipe(map(result => result.data.clubs))
   }
 
-  public viewClub(club: GetClubs.GetClubs): void {
+  public viewClub(club: Clubs.Clubs): void {
     this.navCtrl.navigateForward(`/register/club/${club.clubId}`)
   }
 
@@ -79,5 +79,4 @@ export class RegisterClubsPage implements OnInit {
 
     alert.present()
   }
-
 }

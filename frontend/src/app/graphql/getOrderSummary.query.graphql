@@ -1,5 +1,5 @@
-query getOrderSummary($userId: ID!) {
-  getUser(userId: $userId) {
+query orderSummary($userId: ID!) {
+  user(userId: $userId) {
     club {
       orders {
         orderId

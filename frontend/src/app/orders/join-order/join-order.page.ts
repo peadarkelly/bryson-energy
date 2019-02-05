@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController, LoadingController } from '@ionic/angular'
-import { JoinOrderGQL } from '../../graphql/generated'
+import { JoinOrderGQL, JoinOrder } from '../../graphql/generated'
 import { Storage } from '@ionic/storage'
 import { ActivatedRoute } from '@angular/router'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
@@ -52,7 +52,7 @@ export class JoinOrderPage implements OnInit {
     }
 
     const volume: number = this.orderForm.get('volume').value
-    const cost: number = Number(this.calculateCost())
+    const cost: string = this.calculateCost()
 
     const alert = await this.alertCtrl.create({
       header: `Join order`,
@@ -67,7 +67,7 @@ export class JoinOrderPage implements OnInit {
         },
         {
           text: 'Confirm',
-          handler: () => this.confirmJoinOrder(volume)
+          handler: () => this.confirmJoinOrder(volume, Number(cost))
         }
       ]
     })
@@ -75,21 +75,15 @@ export class JoinOrderPage implements OnInit {
     alert.present()
   }
 
-  private async confirmJoinOrder(volume: number): Promise<void> {
+  private async confirmJoinOrder(volume: number, cost: number): Promise<void> {
     const loading = await this.loadingCtrl.create({
       message: 'Joining order...'
     })
 
     loading.present()
 
-    const user: string = await this.storage.get('user')
-
     this.joinOrderGQL
-      .mutate({
-        orderId: this.orderId,
-        userId: user,
-        volume: volume
-      })
+      .mutate(await this.getVariables(volume, cost))
       .subscribe(({ data }) => {
         loading.dismiss()
 
@@ -97,6 +91,19 @@ export class JoinOrderPage implements OnInit {
 
         this.navCtrl.navigateBack(`/orders/${data.joinOrder.orderId}`)
       })
+  }
+
+  private async getVariables(volume: number, cost: number): Promise<JoinOrder.Variables> {
+    const user: string = await this.storage.get('user')
+
+    return {
+      input: {
+        userId: user,
+        orderId: this.orderId,
+        volume: volume,
+        cost: cost
+      }
+    }
   }
 
   private async showConfirmationAlert(): Promise<void> {

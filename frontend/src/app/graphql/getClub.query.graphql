@@ -1,5 +1,5 @@
-query getClub($clubId: ID) {
-  getClubs(clubId: $clubId) {
+query club($clubId: ID) {
+  clubs(clubId: $clubId) {
     clubId
     admin
     createdDate

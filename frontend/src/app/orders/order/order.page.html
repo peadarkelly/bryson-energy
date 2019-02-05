@@ -71,11 +71,10 @@
         <ion-label>
           {{ participant.name }}
         </ion-label>
-        <ion-badge *ngIf="participant.userId === userOrder.userId" color="primary" slot="end">You</ion-badge>
+        <ion-badge *ngIf="userOrder && participant.userId === userOrder.userId" color="primary" slot="end">You</ion-badge>
       </ion-item>
     </ion-list>
 
-    <ion-button (click)="joinOrder()" expand="block" color="primary">Join order</ion-button>
-    <!-- <ion-button *ngIf="!userOrder" (click)="joinOrder()" expand="block" color="primary">Join order</ion-button> -->
+    <ion-button *ngIf="!userOrder" (click)="joinOrder()" expand="block" color="primary">Join order</ion-button>
   </div>
 </ion-content>
