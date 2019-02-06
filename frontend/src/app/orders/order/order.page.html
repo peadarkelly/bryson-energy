@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button color="light" defaultHref="/orders"></ion-back-button>
+
+    <ion-title>View order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-spinner *ngIf="!order" name="bubbles" color="primary"></ion-spinner>
+
+  <div *ngIf="order">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Order details</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <app-order-status [status]="order.status" slot="end"></app-order-status>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Order reference</h2>
+          <p>{{ order.orderId }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Deadline</h2>
+          <p>{{ order.deadlineDate | date:'EEEE, dd LLLL yyyy' }} at {{ order.deadlineDate | date:'h:mm a' }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Delivery due</h2>
+          <p>{{ order.deliveryDate | date:'EEEE, dd LLLL yyyy' }} at {{ order.deadlineDate | date:'h:mm a' }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Number of participants</h2>
+          <p>{{ order.numberOfParticipants }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="userOrder">
+      <ion-list-header>
+        <ion-label>Your order details</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>
+          <h2>You ordered</h2>
+          <p>{{ userOrder.volume }} litres</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>You paid</h2>
+          <p>{{ userOrder.cost | currency:'GBP' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="order.numberOfParticipants > 0">
+      <ion-list-header>
+        <ion-label>{{ order.numberOfParticipants }} participants</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let participant of order.participants">
+        <ion-label>
+          {{ participant.name }}
+        </ion-label>
+        <ion-badge *ngIf="userOrder && participant.userId === userOrder.userId" color="primary" slot="end">You</ion-badge>
+      </ion-item>
+    </ion-list>
+
+    <ion-button *ngIf="!userOrder" (click)="joinOrder()" expand="block" color="primary">Join order</ion-button>
+  </div>
+</ion-content>

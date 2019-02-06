@@ -1,0 +1,5 @@
+mutation joinOrder($input: JoinOrderInput!) {
+  joinOrder(input: $input) {
+    orderId
+  }
+}

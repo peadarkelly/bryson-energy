@@ -1,27 +1,5 @@
-mutation addUser(
-  $userId: ID!,
-  $firstName: String!,
-  $surname: String!,
-  $email: String!,
-  $contact: String!,
-  $houseNumber: Int!,
-  $addressLine1: String!,
-  $addressLine2: String,
-  $city: String!,
-  $postcode: String!
-) {
-  addUser(
-    userId: $userId,
-    firstName: $firstName,
-    surname: $surname,
-    email: $email,
-    contact: $contact,
-    houseNumber: $houseNumber,
-    addressLine1: $addressLine1,
-    addressLine2: $addressLine2,
-    city: $city,
-    postcode: $postcode
-  ) {
+mutation addUser($input: UserInput!) {
+  addUser(input: $input) {
     userId
   }
 }

@@ -2,12 +2,13 @@ import iocContainer from '../ioc'
 
 import Resolver from './resolver'
 
-import GetUserResolver from './getUser.resolver'
-import GetClubsResolver from './getClubs.resolver'
+import UserResolver from './user.resolver'
+import ClubsResolver from './clubs.resolver'
 import ClubMembersResolver from './clubMembers.resolver'
 import ClubOrdersResolver from './clubOrders.resolver'
 import UserClubResolver from './userClub.resolver'
 import OrderParticipantsResolver from './orderParticipants.resolver'
+import OrderStatusResolver from './orderStatus.resolver'
 import AddUserResolver from './addUser.resolver'
 import AddClubResolver from './addClub.resolver'
 import JoinClubResolver from './joinClub.resolver'
@@ -16,18 +17,19 @@ import JoinOrderResolver from './joinOrder.resolver'
 
 export default {
   Query: {
-    getUser: getResolver(GetUserResolver),
-    getClubs: getResolver(GetClubsResolver),
+    user: getResolver(UserResolver),
+    clubs: getResolver(ClubsResolver)
   },
   Club: {
     members: getResolver(ClubMembersResolver),
     orders: getResolver(ClubOrdersResolver)
   },
   User: {
-    club: getResolver(UserClubResolver),
+    club: getResolver(UserClubResolver)
   },
   Order: {
     participants: getResolver(OrderParticipantsResolver),
+    status: getResolver(OrderStatusResolver)
   },
   Mutation: {
     addUser: getResolver(AddUserResolver),

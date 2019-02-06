@@ -1,0 +1,35 @@
+<ion-card>
+  <ion-item>
+    <app-order-status [status]="order.status" slot="end"></app-order-status>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h2>Order reference</h2>
+      <p>{{ order.orderId }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h2>Deadline</h2>
+      <p>{{ order.deadlineDate | date:'EEEE, dd LLLL yyyy' }} at {{ order.deadlineDate | date:'h:mm a' }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h2>Delivery due</h2>
+      <p>{{ order.deliveryDate | date:'EEEE, dd LLLL yyyy' }} at {{ order.deadlineDate | date:'h:mm a' }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h2>Number of participants</h2>
+      <p>{{ order.numberOfParticipants }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-button (click)="view(order)" expand="full" color="primary" fill="clear">View order</ion-button>
+</ion-card>

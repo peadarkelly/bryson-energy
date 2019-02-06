@@ -6,11 +6,12 @@ import AddOrderResolver from './resolvers/addOrder.resolver'
 import AddUserResolver from './resolvers/addUser.resolver'
 import ClubMembersResolver from './resolvers/clubMembers.resolver'
 import ClubOrdersResolver from './resolvers/clubOrders.resolver'
-import GetClubsResolver from './resolvers/getClubs.resolver'
-import GetUserResolver from './resolvers/getUser.resolver'
+import ClubsResolver from './resolvers/clubs.resolver'
 import JoinClubResolver from './resolvers/joinClub.resolver'
 import JoinOrderResolver from './resolvers/joinOrder.resolver'
 import OrderParticipantsResolver from './resolvers/orderParticipants.resolver'
+import OrderStatusResolver from './resolvers/orderStatus.resolver'
+import UserResolver from './resolvers/user.resolver'
 import UserClubResolver from './resolvers/userClub.resolver'
 
 import GraphqlMapper from './mappers/graphql.mapper'
@@ -29,11 +30,12 @@ iocContainer.bind(AddOrderResolver).toSelf()
 iocContainer.bind(AddUserResolver).toSelf()
 iocContainer.bind(ClubMembersResolver).toSelf()
 iocContainer.bind(ClubOrdersResolver).toSelf()
-iocContainer.bind(GetClubsResolver).toSelf()
-iocContainer.bind(GetUserResolver).toSelf()
+iocContainer.bind(ClubsResolver).toSelf()
 iocContainer.bind(JoinClubResolver).toSelf()
 iocContainer.bind(JoinOrderResolver).toSelf()
 iocContainer.bind(OrderParticipantsResolver).toSelf()
+iocContainer.bind(OrderStatusResolver).toSelf()
+iocContainer.bind(UserResolver).toSelf()
 iocContainer.bind(UserClubResolver).toSelf()
 
 iocContainer.bind(GraphqlMapper).toSelf()

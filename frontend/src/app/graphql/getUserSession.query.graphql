@@ -1,6 +1,12 @@
-query getUserSession($userId: ID!) {
-  getUser(userId: $userId) {
-    userId,
-    clubId
+query userSession($userId: ID!) {
+  user(userId: $userId) {
+    userId
+    club {
+      clubId
+      members {
+        userId
+        isAdmin
+      }
+    }
   }
 }

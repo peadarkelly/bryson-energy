@@ -15,15 +15,15 @@ export default class AddUserResolver implements Resolver {
     private userDao: UserDao
   ) {}
 
-  public async resolve(parent: null, args: AddUserMutationArgs, ctx: Context): Promise<User> {
-    if ((await this.userDao.getUser(ctx, args.userId))) {
+  public async resolve(parent: null, { input }: AddUserMutationArgs, ctx: Context): Promise<User> {
+    if ((await this.userDao.getUser(ctx, input.userId))) {
       throw new Error('userId already exists')
     }
 
-    const user: UserModel = this.firestoreMapper.mapToUserModel(args)
+    const user: UserModel = this.firestoreMapper.mapToUserModel(input)
 
-    await this.userDao.createUser(ctx, args.userId, user)
+    await this.userDao.createUser(ctx, input.userId, user)
 
-    return this.graphqlMapper.mapToUser(args.userId, user)
+    return this.graphqlMapper.mapToUser(input.userId, user)
   }
 }

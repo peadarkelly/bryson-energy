@@ -1,21 +1,21 @@
 import { injectable } from 'inversify'
 import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../models/firestore.models'
-import { AddUserMutationArgs } from '../models/graphql.models'
+import { UserInput, OrderInput, JoinOrderInput } from '../models/graphql.models'
 
 @injectable()
 export default class FirestoreMapper {
 
-  public mapToUserModel(args: AddUserMutationArgs): UserModel {
+  public mapToUserModel(input: UserInput): UserModel {
     return {
-      firstName: args.firstName,
-      surname: args.surname,
-      email: args.email,
-      contact: args.contact,
-      houseNumber: args.houseNumber,
-      addressLine1: args.addressLine1,
-      addressLine2: args.addressLine2,
-      city: args.city,
-      postcode: args.postcode
+      firstName: input.firstName,
+      surname: input.surname,
+      email: input.email,
+      contact: input.contact,
+      houseNumber: input.houseNumber,
+      addressLine1: input.addressLine1,
+      addressLine2: input.addressLine2,
+      city: input.city,
+      postcode: input.postcode
     }
   }
 
@@ -34,19 +34,20 @@ export default class FirestoreMapper {
     }
   }
 
-  public mapToClubOrderModel(deadlineDate: Date): ClubOrderModel {
+  public mapToClubOrderModel(input: OrderInput): ClubOrderModel {
     return {
-      deadlineDate: deadlineDate,
+      deliveryDate: new Date(input.deliveryDate),
+      deadlineDate: new Date(input.deadlineDate),
       totalVolume: 0,
       numberOfParticipants: 0
     }
   }
 
-  public mapToOrderUserModel(user: UserModel, volume: number): OrderUserModel {
+  public mapToOrderUserModel(user: UserModel, input: JoinOrderInput): OrderUserModel {
     return {
       name: `${user.firstName} ${user.surname}`,
-      volume: volume,
-      cost: 0
+      volume: input.volume,
+      cost: input.cost
     }
   }
 }

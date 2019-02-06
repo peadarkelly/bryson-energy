@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { GetUserAccountGQL, GetUserAccount } from '../graphql/generated'
+import { UserAccountGQL, UserAccount } from '../graphql/generated'
 import { ApolloQueryResult } from 'apollo-client'
 import { Storage } from '@ionic/storage'
 import { NavController, AlertController } from '@ionic/angular'
@@ -12,19 +12,19 @@ import { AngularFireAuth } from '@angular/fire/auth'
 })
 export class AccountPage implements OnInit {
 
-  public account: GetUserAccount.GetUser
+  public account: UserAccount.User
 
   public constructor(
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private authService: AngularFireAuth,
     private storage: Storage,
-    private getUserAccountGQL: GetUserAccountGQL) {}
+    private userAccountGQL: UserAccountGQL) {}
 
   public ngOnInit() {
     this.storage.get('user').then(user => {
-      this.getUserAccountGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<GetUserAccount.Query>) => {
-        this.account = data.getUser
+      this.userAccountGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<UserAccount.Query>) => {
+        this.account = data.user
       })
     })
   }

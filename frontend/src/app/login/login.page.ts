@@ -5,7 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth'
 import { auth } from 'firebase'
 import { Storage } from '@ionic/storage'
 import { ApolloQueryResult } from 'apollo-client'
-import { GetUserSessionGQL, GetUserSession } from '../graphql/generated'
+import { UserSessionGQL, UserSession } from '../graphql/generated'
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private authService: AngularFireAuth,
     private storage: Storage,
-    private getUserSessionGQL: GetUserSessionGQL) { }
+    private userSessionGQL: UserSessionGQL) { }
 
   public ngOnInit() {
     this.clearSession()
@@ -40,6 +40,7 @@ export class LoginPage implements OnInit {
 
   private clearSession(): void {
     this.storage.remove('user')
+    this.storage.remove('isAdmin')
     this.storage.remove('register.details')
     this.storage.remove('register.address')
   }
@@ -62,11 +63,12 @@ export class LoginPage implements OnInit {
 
     try {
       const response: auth.UserCredential = await this.authService.auth.signInWithEmailAndPassword(email, password)
-      this.getUserSessionGQL.fetch({ userId: response.user.uid }).subscribe(async ({ data }: ApolloQueryResult<GetUserSession.Query>) => {
-        await this.storage.set('user', data.getUser.userId)
+      this.userSessionGQL.fetch({ userId: response.user.uid }).subscribe(async ({ data }: ApolloQueryResult<UserSession.Query>) => {
+        await this.storage.set('user', data.user.userId)
 
-        if (data.getUser.clubId) {
-          await this.storage.set('club', data.getUser.clubId)
+        if (data.user.club.clubId) {
+          await this.storage.set('club', data.user.club.clubId)
+          await this.storage.set('isAdmin', this.isClubAdmin(data.user))
           this.navCtrl.navigateForward('/tabs')
         } else {
           this.navCtrl.navigateForward('/register/clubs')
@@ -78,6 +80,10 @@ export class LoginPage implements OnInit {
       this.handleError(err)
       loading.dismiss()
     }
+  }
+
+  private isClubAdmin(userSession: UserSession.User): boolean {
+    return userSession.club.members.filter(member => member.isAdmin).map(admin => admin.userId).includes(userSession.userId)
   }
 
   private async handleError(err): Promise<void> {
