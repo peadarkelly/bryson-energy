@@ -1,4 +1,4 @@
-<ion-card>
+<div>
   <ion-item>
     <app-order-status [status]="order.status" slot="end"></app-order-status>
   </ion-item>
@@ -30,6 +30,4 @@
       <p>{{ order.numberOfParticipants }}</p>
     </ion-label>
   </ion-item>
-
-  <ion-button (click)="view(order)" expand="full" color="primary" fill="clear">View order</ion-button>
-</ion-card>
+</div>

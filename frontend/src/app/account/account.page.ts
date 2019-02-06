@@ -21,11 +21,23 @@ export class AccountPage implements OnInit {
     private storage: Storage,
     private userAccountGQL: UserAccountGQL) {}
 
-  public ngOnInit() {
-    this.storage.get('user').then(user => {
-      this.userAccountGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<UserAccount.Query>) => {
-        this.account = data.user
-      })
+  public ngOnInit(): void {
+    this.fetchUser()
+  }
+
+  public ionViewDidEnter(): void {
+    this.fetchUser()
+  }
+
+  public refresh(event): void {
+    this.fetchUser().then(() => event.target.complete())
+  }
+
+  private async fetchUser(): Promise<void> {
+    const user: string = await this.storage.get('user')
+
+    this.userAccountGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<UserAccount.Query>) => {
+      this.account = data.user
     })
   }
 

@@ -29,9 +29,17 @@ export class OrdersPage implements OnInit {
     private addOrderGQL: AddOrderGQL
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.storage.get('isAdmin').then(isAdmin => this.isAdmin = isAdmin)
     this.fetchOrders()
+  }
+
+  public ionViewDidEnter(): void {
+    this.fetchOrders()
+  }
+
+  public refresh(event): void {
+    this.fetchOrders().then(() => event.target.complete())
   }
 
   private async fetchOrders(): Promise<void> {

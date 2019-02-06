@@ -7,6 +7,9 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <ion-segment [(ngModel)]="selectedSegment">
     <ion-segment-button value="open">
@@ -23,7 +26,7 @@
   <div [ngSwitch]="selectedSegment">
     <div *ngSwitchCase="'open'">
       <div *ngFor="let order of inProgressOrders">
-        <app-order-summary [order]="order" (viewOrder)="onViewOrder($event)"></app-order-summary>
+        <app-order-card [order]="order" (viewOrder)="onViewOrder($event)"></app-order-card>
       </div>
 
       <div *ngIf="!loading && isAdmin && inProgressOrders.length === 0" class="no-orders-found">
@@ -36,7 +39,7 @@
 
     <div *ngSwitchCase="'all'">
       <div *ngFor="let order of completedOrders">
-        <app-order-summary [order]="order" (viewOrder)="onViewOrder($event)"></app-order-summary>
+        <app-order-card [order]="order" (viewOrder)="onViewOrder($event)"></app-order-card>
       </div>
 
       <p *ngIf="!loading && completedOrders.length === 0" class="no-orders-found">There are currently no completed orders for this club.</p>
