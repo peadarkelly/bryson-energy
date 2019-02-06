@@ -20,8 +20,16 @@ export class OrderPage implements OnInit {
     private orderDetailsGQL: OrderDetailsGQL
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.fetchOrder()
+  }
+
+  public ionViewDidEnter(): void {
+    this.fetchOrder()
+  }
+
+  public refresh(event): void {
+    this.fetchOrder().then(() => event.target.complete())
   }
 
   private async fetchOrder(): Promise<void> {

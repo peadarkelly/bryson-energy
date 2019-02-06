@@ -8,6 +8,7 @@ import { OrderPage } from './order/order.page'
 import { JoinOrderPage } from './join-order/join-order.page'
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component'
 import { OrderStatusComponent } from './components/order-status/order-status.component'
+import { OrderCardComponent } from './components/order-card/order-card.component'
 
 const routes: Routes = [
   {
@@ -41,6 +42,7 @@ const routes: Routes = [
     OrdersPage,
     OrderPage,
     JoinOrderPage,
+    OrderCardComponent,
     OrderSummaryComponent,
     OrderStatusComponent
   ]
