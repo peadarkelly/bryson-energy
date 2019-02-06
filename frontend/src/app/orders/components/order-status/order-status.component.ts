@@ -1,13 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { OrderSummary } from '../../../graphql/generated'
-import * as moment from 'moment'
+import { OrderStatus } from '../../../graphql/generated'
 
-type StatusText = 'Open' | 'Delivery due' | 'Completed'
-type StatusClass = 'success' | 'primary' | 'secondary'
+enum StatusText {
+  OPEN = 'Open',
+  DELIVERY_DUE = 'Delivery due',
+  COMPLETED = 'Completed',
+}
 
-interface OrderStatus {
-  text: StatusText
-  class: StatusClass
+enum StatusClass {
+  OPEN = 'success',
+  DELIVERY_DUE = 'primary',
+  COMPLETED = 'secondary',
 }
 
 @Component({
@@ -17,29 +20,14 @@ interface OrderStatus {
 })
 export class OrderStatusComponent implements OnInit {
 
-  @Input() public order: OrderSummary.Orders
+  @Input()
   public status: OrderStatus
 
-  public constructor() {}
+  public text: StatusText
+  public class: StatusClass
 
   public ngOnInit() {
-    this.status = this.getOrderStatus()
-  }
-
-  private getOrderStatus(): OrderStatus {
-    const now: moment.Moment = moment()
-    const deadlineDate: moment.Moment = moment(this.order.deadlineDate)
-
-    if (now.isBefore(deadlineDate)) {
-      return {
-        text: 'Open',
-        class: 'success'
-      }
-    }
-
-    return {
-      text: 'Completed',
-      class: 'secondary'
-    }
+    this.text = StatusText[this.status]
+    this.class = StatusClass[this.status]
   }
 }

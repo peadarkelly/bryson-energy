@@ -4,7 +4,9 @@ query orderDetails($userId: ID!) {
       orders {
         orderId
         deadlineDate
+        deliveryDate
         totalVolume
+        status
         numberOfParticipants
         participants {
           userId

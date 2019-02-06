@@ -4,6 +4,8 @@ query orderSummary($userId: ID!) {
       orders {
         orderId
         deadlineDate
+        deliveryDate
+        status
         numberOfParticipants
       }
     }

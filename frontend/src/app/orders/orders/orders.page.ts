@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController, LoadingController } from '@ionic/angular'
-import { OrderSummaryGQL, OrderSummary, AddOrderGQL, AddOrder } from '../../graphql/generated'
+import { OrderSummaryGQL, OrderSummary, AddOrderGQL, AddOrder, OrderStatus } from '../../graphql/generated'
 import { ApolloQueryResult } from 'apollo-client'
 import { Storage } from '@ionic/storage'
 import * as moment from 'moment'
@@ -40,13 +40,17 @@ export class OrdersPage implements OnInit {
     this.storage.get('user').then(user => {
       this.getOrderSummaryGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<OrderSummary.Query>) => {
         if (data.user.club.orders.length > 0) {
-          this.inProgressOrders = data.user.club.orders
-          this.completedOrders = data.user.club.orders
+          this.inProgressOrders = this.getFilteredOrders(data, OrderStatus.Open, OrderStatus.DeliveryDue)
+          this.completedOrders = this.getFilteredOrders(data, OrderStatus.Completed)
         }
 
         this.loading = false
       })
     })
+  }
+
+  private getFilteredOrders(data: OrderSummary.Query, ...status: OrderStatus[]): OrderSummary.Orders[] {
+    return data.user.club.orders.filter(order => status.includes(order.status))
   }
 
   public onViewOrder(order: OrderSummary.Orders): void {
