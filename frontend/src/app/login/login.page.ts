@@ -83,7 +83,7 @@ export class LoginPage implements OnInit {
   }
 
   private isClubAdmin(userSession: UserSession.User): boolean {
-    return userSession.club.members.filter(member => member.userId === userSession.userId)[0].isAdmin
+    return userSession.club.members.filter(member => member.isAdmin).map(admin => admin.userId).includes(userSession.userId)
   }
 
   private async handleError(err): Promise<void> {
