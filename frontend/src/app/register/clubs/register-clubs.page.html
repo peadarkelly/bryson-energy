@@ -1,12 +1,12 @@
 <ion-content padding>
   <h2 padding>Choose your club</h2>
 
-  <ion-list>
+  <ion-list *ngIf="clubs.length > 0" padding>
     <ion-list-header>
       <ion-label>Clubs</ion-label>
     </ion-list-header>
 
-    <ion-item *ngFor="let club of clubs | async" (click)="viewClub(club)">
+    <ion-item *ngFor="let club of clubs" (click)="viewClub(club)">
       <ion-label>
         <h2>{{ club.admin }}</h2>
         <p>{{ club.numberOfMembers }} members</p>
@@ -15,5 +15,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button (click)="createClub()" expand="block" color="primary" fill="outline">Create a new club</ion-button>
+  <p *ngIf="clubs.length === 0" class="no-clubs-found" padding>There are currently no clubs available in your area.</p>
+
+  <ion-button (click)="createClub()" expand="block" color="primary" fill="outline" padding>Create a new club</ion-button>
 </ion-content>

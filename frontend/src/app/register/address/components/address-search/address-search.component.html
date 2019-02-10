@@ -1,0 +1,12 @@
+<div>
+  <ion-searchbar [(ngModel)]="query" (ionChange)="searchForAddress()" placeholder="Search for an address"></ion-searchbar>
+
+  <ion-list>
+    <ion-radio-group [(ngModel)]="placeId">
+      <ion-item *ngFor="let address of addresses" (click)="selectAddress(address)">
+        <ion-label text-wrap>{{ address.description }}</ion-label>
+        <ion-radio (ionChange)="selectAddress()" value="{{ address.place_id }}"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</div>

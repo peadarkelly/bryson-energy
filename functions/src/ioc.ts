@@ -1,9 +1,14 @@
 import 'reflect-metadata'
 import { Container } from 'inversify'
 
+import { createClient } from '@google/maps'
+
+import TYPES from './types'
+
 import AddClubResolver from './resolvers/addClub.resolver'
 import AddOrderResolver from './resolvers/addOrder.resolver'
 import AddUserResolver from './resolvers/addUser.resolver'
+import ClubResolver from './resolvers/club.resolver'
 import ClubMembersResolver from './resolvers/clubMembers.resolver'
 import ClubOrdersResolver from './resolvers/clubOrders.resolver'
 import ClubsResolver from './resolvers/clubs.resolver'
@@ -28,6 +33,7 @@ const iocContainer = new Container()
 iocContainer.bind(AddClubResolver).toSelf()
 iocContainer.bind(AddOrderResolver).toSelf()
 iocContainer.bind(AddUserResolver).toSelf()
+iocContainer.bind(ClubResolver).toSelf()
 iocContainer.bind(ClubMembersResolver).toSelf()
 iocContainer.bind(ClubOrdersResolver).toSelf()
 iocContainer.bind(ClubsResolver).toSelf()
@@ -46,5 +52,10 @@ iocContainer.bind(ClubDao).toSelf()
 iocContainer.bind(ClubUserDao).toSelf()
 iocContainer.bind(ClubOrderDao).toSelf()
 iocContainer.bind(OrderUserDao).toSelf()
+
+iocContainer.bind(TYPES.GoogleMapsClient).toConstantValue(createClient({
+  key: 'AIzaSyDhXecHlpCw7wsSxsLKtJLTNQ7xHJPO0Vo',
+  Promise: Promise
+}))
 
 export default iocContainer

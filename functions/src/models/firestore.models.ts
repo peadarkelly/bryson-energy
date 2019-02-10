@@ -15,17 +15,14 @@ export interface UserModel {
   surname: string
   email: string
   contact: string
-  houseNumber: number
-  addressLine1: string
-  addressLine2?: string
-  city: string
-  postcode: string
+  placeId: string
   clubId?: string
 }
 
 export interface ClubModel {
   clubId?: string
   admin: string
+  placeId: string
   createdDate: Date
   numberOfMembers: number
 }

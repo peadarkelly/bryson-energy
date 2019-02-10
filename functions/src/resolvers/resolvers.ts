@@ -4,6 +4,7 @@ import Resolver from './resolver'
 
 import UserResolver from './user.resolver'
 import ClubsResolver from './clubs.resolver'
+import ClubResolver from './club.resolver'
 import ClubMembersResolver from './clubMembers.resolver'
 import ClubOrdersResolver from './clubOrders.resolver'
 import UserClubResolver from './userClub.resolver'
@@ -18,7 +19,8 @@ import JoinOrderResolver from './joinOrder.resolver'
 export default {
   Query: {
     user: getResolver(UserResolver),
-    clubs: getResolver(ClubsResolver)
+    clubs: getResolver(ClubsResolver),
+    club: getResolver(ClubResolver)
   },
   Club: {
     members: getResolver(ClubMembersResolver),

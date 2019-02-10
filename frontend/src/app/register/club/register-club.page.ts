@@ -12,7 +12,7 @@ import { ClubGQL, Club, JoinClubGQL, JoinClub } from '../../graphql/generated'
 })
 export class RegisterClubPage implements OnInit {
 
-  public club: Club.Clubs
+  public club: Club.Club
 
   private clubId: string
 
@@ -27,8 +27,12 @@ export class RegisterClubPage implements OnInit {
 
   public ngOnInit() {
     this.clubId = this.route.snapshot.paramMap.get('clubId')
+    this.fetchClub()
+  }
+
+  private fetchClub(): void {
     this.clubGQL.fetch({ clubId: this.clubId }).subscribe(({ data }: ApolloQueryResult<Club.Query>) => {
-      this.club = data.clubs[0]
+      this.club = data.club[0]
     })
   }
 

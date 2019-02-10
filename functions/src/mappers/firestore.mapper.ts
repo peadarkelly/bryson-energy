@@ -11,17 +11,14 @@ export default class FirestoreMapper {
       surname: input.surname,
       email: input.email,
       contact: input.contact,
-      houseNumber: input.houseNumber,
-      addressLine1: input.addressLine1,
-      addressLine2: input.addressLine2,
-      city: input.city,
-      postcode: input.postcode
+      placeId: input.placeId
     }
   }
 
   public mapToClubModel(admin: UserModel): ClubModel {
     return {
       admin: `${admin.firstName} ${admin.surname}`,
+      placeId: admin.placeId,
       createdDate: new Date(),
       numberOfMembers: 1
     }

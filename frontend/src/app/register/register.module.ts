@@ -9,6 +9,8 @@ import { RegisterDetailsPage } from './details/register-details.page'
 import { RegisterAddressPage } from './address/register-address.page'
 import { RegisterClubsPage } from './clubs/register-clubs.page'
 import { RegisterClubPage } from './club/register-club.page'
+import { AddressSearchComponent } from './address/components/address-search/address-search.component'
+import { AddressSearchService } from './address/components/address-search/address-search.service'
 
 const routes: Routes = [
   {
@@ -46,7 +48,8 @@ const routes: Routes = [
     RegisterDetailsPage,
     RegisterAddressPage,
     RegisterClubsPage,
-    RegisterClubPage
+    RegisterClubPage,
+    AddressSearchComponent
   ]
 })
 export class RegisterPageModule {}

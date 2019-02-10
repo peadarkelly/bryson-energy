@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController, LoadingController } from '@ionic/angular'
-import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
 import { ClubsGQL, Clubs, AddClubGQL } from '../../graphql/generated'
 import { Storage } from '@ionic/storage'
+import { ApolloQueryResult } from 'apollo-client'
 
 @Component({
   selector: 'app-register-clubs',
@@ -12,7 +11,7 @@ import { Storage } from '@ionic/storage'
 })
 export class RegisterClubsPage implements OnInit {
 
-  public clubs: Observable<Clubs.Clubs[]>
+  public clubs: Clubs.Clubs[] = []
 
   public constructor(
     private navCtrl: NavController,
@@ -23,7 +22,14 @@ export class RegisterClubsPage implements OnInit {
     private clubsGQL: ClubsGQL) { }
 
   public ngOnInit() {
-    this.clubs = this.clubsGQL.fetch().pipe(map(result => result.data.clubs))
+    this.fetchClubs()
+  }
+
+  private async fetchClubs(): Promise<void> {
+    const user: string = await this.storage.get('user')
+    this.clubsGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<Clubs.Query>) => {
+      this.clubs = data.clubs
+    })
   }
 
   public viewClub(club: Clubs.Clubs): void {
@@ -41,7 +47,7 @@ export class RegisterClubsPage implements OnInit {
           cssClass: 'secondary'
         },
         {
-          text: 'Join',
+          text: 'Create',
           handler: () => this.confirmCreateClub()
         }
       ]
