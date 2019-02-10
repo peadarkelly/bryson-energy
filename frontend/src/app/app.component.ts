@@ -22,25 +22,25 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // this.getInitialRoute().then(route => {
-        // this.navCtrl.navigateRoot(route)
+      this.getInitialRoute().then(route => {
+        this.navCtrl.navigateRoot(route)
         this.statusBar.styleDefault()
         this.splashScreen.hide()
-      // })
+      })
     })
   }
 
-  // private async getInitialRoute(): Promise<string> {
-  //   const user = await this.storage.get('user')
-  //   if (!user) {
-  //     return '/login'
-  //   }
+  private async getInitialRoute(): Promise<string> {
+    const user = await this.storage.get('user')
+    if (!user) {
+      return '/login'
+    }
 
-  //   const club = await this.storage.get('club')
-  //   if (!club) {
-  //     return '/register/clubs'
-  //   }
+    const club = await this.storage.get('club')
+    if (!club) {
+      return '/register/clubs'
+    }
 
-  //   return '/tabs'
-  // }
+    return '/tabs'
+  }
 }
