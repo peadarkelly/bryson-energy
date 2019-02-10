@@ -8,11 +8,7 @@ const typeDefs: ITypeDefinitions = gql`
     surname: String!
     email: String!
     contact: String!
-    houseNumber: Int!
-    addressLine1: String!
-    addressLine2: String
-    city: String!
-    postcode: String!
+    placeId: String!
     clubId: ID
     club: Club
   }
@@ -62,11 +58,7 @@ const typeDefs: ITypeDefinitions = gql`
     surname: String!
     email: String!
     contact: String!
-    houseNumber: Int!
-    addressLine1: String!
-    addressLine2: String
-    city: String!
-    postcode: String!
+    placeId: String!
   }
 
   input OrderInput {
@@ -85,7 +77,9 @@ const typeDefs: ITypeDefinitions = gql`
   type Query {
     user(userId: ID!): User!
 
-    clubs(clubId: ID): [Club!]!
+    clubs(userId: ID!): [Club!]!
+
+    club(clubId: ID!): Club!
   }
 
   type Mutation {

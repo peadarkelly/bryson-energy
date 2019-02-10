@@ -12,12 +12,8 @@ export default class GraphqlMapper {
       surname: doc.surname,
       email: doc.email,
       contact: doc.contact,
-      houseNumber: doc.houseNumber,
-      addressLine1: doc.addressLine1,
-      addressLine2: doc.addressLine2,
-      city: doc.city,
-      postcode: doc.postcode,
-      clubId: doc.clubId
+      clubId: doc.clubId,
+      placeId: doc.placeId
     }
   }
 

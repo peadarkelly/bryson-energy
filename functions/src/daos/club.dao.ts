@@ -13,14 +13,8 @@ export default class ClubDao extends BaseDao<ClubModel> {
     return super.mapToResult(clubSnap)
   }
 
-  public async getClubs(ctx: Context, clubId?: string): Promise<BaseModel<ClubModel>[]> {
-    const clubsReference = ctx.firestore.collection('clubs')
-
-    if (clubId) {
-      clubsReference.doc(clubId)
-    }
-
-    const clubsSnap: fire.QuerySnapshot = await clubsReference.get()
+  public async getClubs(ctx: Context): Promise<BaseModel<ClubModel>[]> {
+    const clubsSnap: fire.QuerySnapshot = await ctx.firestore.collection('clubs').get()
 
     return super.mapToCollectionResult(clubsSnap)
   }
