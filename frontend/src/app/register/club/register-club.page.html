@@ -1,6 +1,10 @@
-<ion-content padding>
-  <ion-back-button defaultHref="/register/clubs" icon="close" text="" color="secondary" id="close"></ion-back-button>
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-back-button defaultHref="/register/clubs"></ion-back-button>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content padding>
   <h2 padding>Choose your club</h2>
 
   <ion-button (click)="joinClub()" expand="block">Join club</ion-button>

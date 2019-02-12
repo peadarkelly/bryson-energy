@@ -14,6 +14,7 @@ import ClubOrdersResolver from './resolvers/clubOrders.resolver'
 import ClubsResolver from './resolvers/clubs.resolver'
 import JoinClubResolver from './resolvers/joinClub.resolver'
 import JoinOrderResolver from './resolvers/joinOrder.resolver'
+import OrderResolver from './resolvers/order.resolver'
 import OrderParticipantsResolver from './resolvers/orderParticipants.resolver'
 import OrderStatusResolver from './resolvers/orderStatus.resolver'
 import UserResolver from './resolvers/user.resolver'
@@ -39,6 +40,7 @@ iocContainer.bind(ClubOrdersResolver).toSelf()
 iocContainer.bind(ClubsResolver).toSelf()
 iocContainer.bind(JoinClubResolver).toSelf()
 iocContainer.bind(JoinOrderResolver).toSelf()
+iocContainer.bind(OrderResolver).toSelf()
 iocContainer.bind(OrderParticipantsResolver).toSelf()
 iocContainer.bind(OrderStatusResolver).toSelf()
 iocContainer.bind(UserResolver).toSelf()

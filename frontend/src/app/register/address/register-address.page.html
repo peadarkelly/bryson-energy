@@ -1,6 +1,10 @@
-<ion-content padding>
-  <ion-back-button defaultHref="/register/details" icon="close" text="" color="secondary" id="close"></ion-back-button>
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-back-button defaultHref="/register/details"></ion-back-button>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content padding>
   <h2 padding>Find and select your address</h2>
 
   <app-address-search (addressSelected)="onAddressSelected($event)"></app-address-search>

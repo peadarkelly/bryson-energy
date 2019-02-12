@@ -42,7 +42,17 @@ import { environment } from '../environments/environment'
           cache: new InMemoryCache(),
           link: httpLink.create({
             uri: environment.graphqlServer
-          })
+          }),
+          defaultOptions: {
+            watchQuery: {
+              fetchPolicy: 'no-cache',
+              errorPolicy: 'ignore',
+            },
+            query: {
+              fetchPolicy: 'no-cache',
+              errorPolicy: 'all',
+            },
+          }
         }
       },
       deps: [HttpLink]

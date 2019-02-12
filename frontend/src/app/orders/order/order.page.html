@@ -36,7 +36,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-list *ngIf="order.numberOfParticipants > 0">
+    <ion-list *ngIf="order && order.numberOfParticipants > 0">
       <ion-list-header>
         <ion-label>{{ order.numberOfParticipants }} participants</ion-label>
       </ion-list-header>
