@@ -12,6 +12,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular'
 import { IonicStorageModule } from '@ionic/storage'
 import { SplashScreen } from '@ionic-native/splash-screen/ngx'
 import { StatusBar } from '@ionic-native/status-bar/ngx'
+import { HTTP } from '@ionic-native/http/ngx'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -34,6 +35,7 @@ import { environment } from '../environments/environment'
   providers: [
     StatusBar,
     SplashScreen,
+    HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: APOLLO_OPTIONS,
@@ -42,7 +44,17 @@ import { environment } from '../environments/environment'
           cache: new InMemoryCache(),
           link: httpLink.create({
             uri: environment.graphqlServer
-          })
+          }),
+          defaultOptions: {
+            watchQuery: {
+              fetchPolicy: 'no-cache',
+              errorPolicy: 'ignore',
+            },
+            query: {
+              fetchPolicy: 'no-cache',
+              errorPolicy: 'all',
+            },
+          }
         }
       },
       deps: [HttpLink]

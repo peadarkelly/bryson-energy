@@ -1,0 +1,6 @@
+{
+  "appId": "com.bryson.energy",
+  "appName": "bryson-energy",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}

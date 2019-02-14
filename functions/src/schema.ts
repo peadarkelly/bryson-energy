@@ -80,6 +80,8 @@ const typeDefs: ITypeDefinitions = gql`
     clubs(userId: ID!): [Club!]!
 
     club(clubId: ID!): Club!
+
+    order(clubId: ID!, orderId: ID!): Order!
   }
 
   type Mutation {

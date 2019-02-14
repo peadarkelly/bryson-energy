@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular'
 import { OrderDetailsGQL, OrderDetails } from '../../graphql/generated'
 import { ApolloQueryResult } from 'apollo-client'
 import { Storage } from '@ionic/storage'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-order',
@@ -11,10 +12,13 @@ import { Storage } from '@ionic/storage'
 })
 export class OrderPage implements OnInit {
 
-  public order: OrderDetails.Orders
+  public order: OrderDetails.Order
   public userOrder: OrderDetails.Participants
 
+  private orderId: string
+
   public constructor(
+    private route: ActivatedRoute,
     private navCtrl: NavController,
     private storage: Storage,
     private orderDetailsGQL: OrderDetailsGQL
@@ -33,17 +37,28 @@ export class OrderPage implements OnInit {
   }
 
   private async fetchOrder(): Promise<void> {
-    const user: string = await this.storage.get('user')
+    console.log('fetch order')
+    this.orderId = this.route.snapshot.paramMap.get('orderId')
 
-    this.orderDetailsGQL.fetch({ userId: user }).subscribe(async ({ data }: ApolloQueryResult<OrderDetails.Query>) => {
-      const order: OrderDetails.Orders = data.user.club.orders[0]
+    this.orderDetailsGQL.fetch(await this.getVariables()).subscribe(async ({ data }: ApolloQueryResult<OrderDetails.Query>) => {
+      console.log('fetch order sub')
+      const order: OrderDetails.Order = data.order
 
       this.userOrder = await this.getParticipantInfo(order)
       this.order = order
     })
   }
 
-  private async getParticipantInfo(order: OrderDetails.Orders): Promise<OrderDetails.Participants> {
+  private async getVariables(): Promise<OrderDetails.Variables> {
+    const club: string = await this.storage.get('club')
+
+    return {
+      clubId: club,
+      orderId: this.orderId
+    }
+  }
+
+  private async getParticipantInfo(order: OrderDetails.Order): Promise<OrderDetails.Participants> {
     const user = await this.storage.get('user')
 
     const filteredParticipants: OrderDetails.Participants[] = order.participants.filter(p => p.userId === user)

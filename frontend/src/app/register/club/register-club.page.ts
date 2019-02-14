@@ -32,7 +32,7 @@ export class RegisterClubPage implements OnInit {
 
   private fetchClub(): void {
     this.clubGQL.fetch({ clubId: this.clubId }).subscribe(({ data }: ApolloQueryResult<Club.Query>) => {
-      this.club = data.club[0]
+      this.club = data.club
     })
   }
 

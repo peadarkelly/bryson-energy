@@ -1,21 +1,17 @@
-query orderDetails($userId: ID!) {
-  user(userId: $userId) {
-    club {
-      orders {
-        orderId
-        deadlineDate
-        deliveryDate
-        totalVolume
-        status
-        numberOfParticipants
-        participants {
-          userId
-          name
-          volume
-          cost
-          cashback
-        }
-      }
+query orderDetails($clubId: ID!, $orderId: ID!) {
+  order(clubId: $clubId, orderId: $orderId) {
+    orderId
+    deadlineDate
+    deliveryDate
+    totalVolume
+    status
+    numberOfParticipants
+    participants {
+      userId
+      name
+      volume
+      cost
+      cashback
     }
   }
 }

@@ -1,6 +1,10 @@
-<ion-content padding>
-  <ion-back-button defaultHref="/login" icon="close" text="" color="secondary" id="close"></ion-back-button>
+<ion-header>
+  <ion-toolbar color="light" class="no-border-toolbar">
+    <ion-back-button defaultHref="/login"></ion-back-button>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content padding>
   <h2 padding>Enter your details</h2>
 
   <form [formGroup]="detailsForm" (ngSubmit)="submit()">
