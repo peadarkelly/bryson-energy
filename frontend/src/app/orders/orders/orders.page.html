@@ -29,11 +29,14 @@
         <app-order-card [order]="order" (viewOrder)="onViewOrder($event)"></app-order-card>
       </div>
 
-      <div *ngIf="!loading && isAdmin && inProgressOrders.length === 0" class="no-orders-found">
+      <div *ngIf="!loading && inProgressOrders.length === 0" class="no-orders-found">
         <p>There are currently no in progress orders.</p>
-        <p>As a club admin you can initiate an order below</p>
 
-        <ion-button (click)="initiateOrder()" expand="block" color="primary">Initiate order</ion-button>
+        <div *ngIf="isAdmin">
+          <p>As a club admin you can initiate an order below</p>
+
+          <ion-button (click)="initiateOrder()" expand="block" color="primary">Initiate order</ion-button>
+        </div>
       </div>
     </div>
 

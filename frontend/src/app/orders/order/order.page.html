@@ -14,7 +14,13 @@
   <ion-spinner *ngIf="!order" name="bubbles" color="primary"></ion-spinner>
 
   <div *ngIf="order">
-    <app-order-summary [order]="order"></app-order-summary>
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Order details</ion-label>
+      </ion-list-header>
+
+      <app-order-summary [order]="order"></app-order-summary>
+    </ion-list>
 
     <ion-list *ngIf="userOrder">
       <ion-list-header>

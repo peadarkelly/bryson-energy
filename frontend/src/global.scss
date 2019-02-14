@@ -38,3 +38,7 @@
 .delete-account {
   color: var(--ion-color-danger) !important;
 }
+
+ion-toolbar.no-border-toolbar {
+  --border-width: 0 !important;
+}

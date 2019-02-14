@@ -1,25 +1,27 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HTTP, HTTPResponse } from '@ionic-native/http/ngx'
 import { environment } from '../../../../../environments/environment'
 import uuid from 'uuidv4'
-
-interface AutocompleteResponse {
-  predictions: google.maps.places.AutocompletePrediction[]
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressSearchService {
 
-  private readonly API_BASE_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?components=country:uk&types=address'
-  private readonly QUERY_URL = `${this.API_BASE_URL}&key=${environment.placesApiKey}&sessiontoken=${uuid()}`
+  private readonly API_BASE_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?'
+  private readonly DEFAULT_PARAMS: any = {
+    key: environment.placesApiKey,
+    sessiontoken: uuid(),
+    components: 'country:uk',
+    types: 'address'
+  }
 
-  public constructor(private http: HttpClient) {}
+  public constructor(private http: HTTP) {}
 
   public async searchForAddress(query: string): Promise<google.maps.places.AutocompletePrediction[]> {
-    const response: AutocompleteResponse = <AutocompleteResponse>(await this.http.get(`${this.QUERY_URL}&input=${query}`).toPromise())
-    return response.predictions
+    const params: any = { ...this.DEFAULT_PARAMS, input: query }
+    const response: HTTPResponse = await this.http.get(this.API_BASE_URL, params, {})
+    return JSON.parse(response.data).predictions
   }
 
 }
