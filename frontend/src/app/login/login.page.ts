@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private authService: AngularFireAuth,
+    private firebaseAuth: AngularFireAuth,
     private storage: Storage,
     private userSessionGQL: UserSessionGQL) { }
 
@@ -77,7 +77,7 @@ export class LoginPage implements OnInit {
     const email: string = this.loginForm.get('email').value
     const password: string = this.loginForm.get('password').value
 
-    const response: auth.UserCredential = await this.authService.auth.signInWithEmailAndPassword(email, password)
+    const response: auth.UserCredential = await this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
 
     return response.user.uid
   }
