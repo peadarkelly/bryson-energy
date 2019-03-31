@@ -37,11 +37,9 @@ export class OrderPage implements OnInit {
   }
 
   private async fetchOrder(): Promise<void> {
-    console.log('fetch order')
     this.orderId = this.route.snapshot.paramMap.get('orderId')
 
     this.orderDetailsGQL.fetch(await this.getVariables()).subscribe(async ({ data }: ApolloQueryResult<OrderDetails.Query>) => {
-      console.log('fetch order sub')
       const order: OrderDetails.Order = data.order
 
       this.userOrder = await this.getParticipantInfo(order)
