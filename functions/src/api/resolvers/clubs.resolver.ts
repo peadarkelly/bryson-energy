@@ -31,7 +31,7 @@ export default class ClubsResolver implements Resolver {
 
     await this.filterClubsInRange(user, clubs)
 
-    return clubs.map(club => this.graphqlMapper.mapToClub(club.id, club.data))
+    return clubs.filter(club => club).map(club => this.graphqlMapper.mapToClub(club.id, club.data))
   }
 
   private async filterClubsInRange(user: BaseModel<UserModel>, clubs: BaseModel<ClubModel>[]): Promise<void> {
@@ -41,7 +41,7 @@ export default class ClubsResolver implements Resolver {
       const club: DistanceMatrixRowElement = clubsWithDistanceInfo[i]
 
       if (this.isOutOfRange(club)) {
-        clubs.splice(i, 1)
+        clubs[i] = null
       }
     }
   }
