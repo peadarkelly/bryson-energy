@@ -1,25 +1,21 @@
-import { browser, by, element, protractor, $ } from 'protractor'
+import { browser, by, element } from 'protractor'
+import BasePage from './basePage.po'
 
-class LoginPage {
+class LoginPage extends BasePage {
   navigateTo() {
     return browser.get('/login')
   }
 
   waitForPageToLoad() {
-    const until = protractor.ExpectedConditions
-    return browser.wait(until.presenceOf(element(by.id('email'))), 10000, 'Element taking too long to appear in the DOM')
+    return super.waitForElement('email')
   }
 
   enterEmail(email: string) {
-    const el = element(by.id('email'))
-    el.click()
-    return el.sendKeys(email)
+    return super.enterValue('email', email)
   }
 
   enterPassword(password: string) {
-    const el = element(by.id('password'))
-    el.click()
-    return el.sendKeys(password)
+    return super.enterValue('password', password)
   }
 
   clickLogin() {
