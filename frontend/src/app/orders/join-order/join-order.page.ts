@@ -67,6 +67,7 @@ export class JoinOrderPage implements OnInit {
         },
         {
           text: 'Confirm',
+          cssClass: 'join-order-confirm',
           handler: () => this.confirmJoinOrder(volume, Number(cost))
         }
       ]
@@ -110,7 +111,10 @@ export class JoinOrderPage implements OnInit {
     const alert = await this.alertCtrl.create({
       header: 'Order joined',
       message: 'Order successfully joined',
-      buttons: ['OK']
+      buttons: [{
+        text: 'OK',
+        cssClass: 'join-order-ok'
+      }]
     })
 
     alert.present()

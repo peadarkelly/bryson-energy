@@ -85,6 +85,7 @@ export class OrdersPage implements OnInit {
         },
         {
           text: 'Confirm',
+          cssClass: 'initiate-order-confirm',
           handler: () => this.confirmInitiateOrder(deadlineDate, deliveryDate)
         }
       ]
@@ -135,7 +136,10 @@ export class OrdersPage implements OnInit {
     const alert = await this.alertCtrl.create({
       header: 'Order initiated',
       message: 'Order successfully initiated',
-      buttons: ['OK']
+      buttons: [{
+        text: 'OK',
+        cssClass: 'initiate-order-ok'
+      }]
     })
 
     alert.present()
