@@ -21,12 +21,12 @@
       </div>
 
       <ion-item>
-        <ion-input formControlName="volume" required type="number" placeholder="0"></ion-input>
+        <ion-input id="order-volume" formControlName="volume" required type="number" placeholder="0"></ion-input>
       </ion-item>
     </div>
 
     <p>Total cost: £{{ calculateCost() }}</p>
 
-    <ion-button type="submit" expand="block" color="primary">Join order</ion-button>
+    <ion-button id="join-order-submit" type="submit" expand="block" color="primary">Join order</ion-button>
   </form>
 </ion-content>

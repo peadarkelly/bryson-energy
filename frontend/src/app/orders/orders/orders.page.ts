@@ -45,15 +45,15 @@ export class OrdersPage implements OnInit {
   private async fetchOrders(): Promise<void> {
     this.loading = true
 
-    this.storage.get('user').then(user => {
-      this.getOrderSummaryGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<OrderSummary.Query>) => {
-        if (data.user.club.orders.length > 0) {
-          this.inProgressOrders = this.getFilteredOrders(data, OrderStatus.Open, OrderStatus.DeliveryDue)
-          this.completedOrders = this.getFilteredOrders(data, OrderStatus.Completed)
-        }
+    const user: string = await this.storage.get('user')
 
-        this.loading = false
-      })
+    this.getOrderSummaryGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<OrderSummary.Query>) => {
+      if (data.user.club.orders.length > 0) {
+        this.inProgressOrders = this.getFilteredOrders(data, OrderStatus.Open, OrderStatus.DeliveryDue)
+        this.completedOrders = this.getFilteredOrders(data, OrderStatus.Completed)
+      }
+
+      this.loading = false
     })
   }
 
@@ -85,6 +85,7 @@ export class OrdersPage implements OnInit {
         },
         {
           text: 'Confirm',
+          cssClass: 'initiate-order-confirm',
           handler: () => this.confirmInitiateOrder(deadlineDate, deliveryDate)
         }
       ]
@@ -135,7 +136,10 @@ export class OrdersPage implements OnInit {
     const alert = await this.alertCtrl.create({
       header: 'Order initiated',
       message: 'Order successfully initiated',
-      buttons: ['OK']
+      buttons: [{
+        text: 'OK',
+        cssClass: 'initiate-order-ok'
+      }]
     })
 
     alert.present()

@@ -19,8 +19,7 @@ export class AddressSearchService {
   public constructor(private http: HTTP) {}
 
   public async searchForAddress(query: string): Promise<google.maps.places.AutocompletePrediction[]> {
-    const params: any = { ...this.DEFAULT_PARAMS, input: query }
-    const response: HTTPResponse = await this.http.get(this.API_BASE_URL, params, {})
+    const response: HTTPResponse = await this.http.get(this.API_BASE_URL, { ...this.DEFAULT_PARAMS, input: query }, {})
     return JSON.parse(response.data).predictions
   }
 

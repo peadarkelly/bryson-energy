@@ -1,0 +1,21 @@
+{
+  "extension": [
+    ".ts"
+  ],
+  "exclude": [
+    "src/index.ts",
+    "src/ioc.ts",
+    "src/schema.ts",
+    "src/server.ts",
+    "src/types.ts",
+    "src/api/daos/**/*.ts",
+    "node_modules/**/*.ts",
+    "tests/*"
+  ],
+  "reporter": [
+    "text-summary",
+    "text",
+    "html"
+  ],
+  "temp-directory": "./coverage/.nyc_output"
+}

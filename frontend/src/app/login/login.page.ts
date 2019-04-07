@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { NavController, LoadingController, AlertController } from '@ionic/angular'
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { AngularFireAuth } from '@angular/fire/auth'
-import { auth } from 'firebase'
+import { auth, User } from 'firebase'
 import { Storage } from '@ionic/storage'
 import { ApolloQueryResult } from 'apollo-client'
 import { UserSessionGQL, UserSession } from '../graphql/generated'
@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private authService: AngularFireAuth,
+    private firebaseAuth: AngularFireAuth,
     private storage: Storage,
     private userSessionGQL: UserSessionGQL) { }
 
@@ -58,28 +58,49 @@ export class LoginPage implements OnInit {
 
     await loading.present()
 
-    const email: string = this.loginForm.get('email').value
-    const password: string = this.loginForm.get('password').value
-
     try {
-      const response: auth.UserCredential = await this.authService.auth.signInWithEmailAndPassword(email, password)
-      this.userSessionGQL.fetch({ userId: response.user.uid }).subscribe(async ({ data }: ApolloQueryResult<UserSession.Query>) => {
-        await this.storage.set('user', data.user.userId)
+      const userId: string = await this.authenticate()
+      const user: UserSession.User = await this.getUserInfo(userId)
 
-        if (data.user.club.clubId) {
-          await this.storage.set('club', data.user.club.clubId)
-          await this.storage.set('isAdmin', this.isClubAdmin(data.user))
-          this.navCtrl.navigateForward('/tabs')
-        } else {
-          this.navCtrl.navigateForward('/register/clubs')
-        }
+      await this.saveUserInfoToSession(user)
 
-        loading.dismiss()
-      })
+      this.navCtrl.navigateForward(this.hasClub(user) ? '/tabs' : '/register/clubs')
+
+      loading.dismiss()
     } catch (err) {
       this.handleError(err)
       loading.dismiss()
     }
+  }
+
+  private async authenticate(): Promise<string> {
+    const email: string = this.loginForm.get('email').value
+    const password: string = this.loginForm.get('password').value
+
+    const response: auth.UserCredential = await this.firebaseAuth.auth.signInWithEmailAndPassword(email, password)
+
+    return response.user.uid
+  }
+
+  private getUserInfo(userId: string): Promise<UserSession.User> {
+    return new Promise<UserSession.User>(resolve => {
+      this.userSessionGQL.fetch({ userId: userId }).subscribe(async ({ data }: ApolloQueryResult<UserSession.Query>) => {
+        resolve(data.user)
+      })
+    })
+  }
+
+  private async saveUserInfoToSession(user: UserSession.User): Promise<void> {
+    await this.storage.set('user', user.userId)
+
+    if (this.hasClub(user)) {
+      await this.storage.set('club', user.club.clubId)
+      await this.storage.set('isAdmin', this.isClubAdmin(user))
+    }
+  }
+
+  private hasClub(user: UserSession.User): boolean {
+    return !!user.club.clubId
   }
 
   private isClubAdmin(userSession: UserSession.User): boolean {

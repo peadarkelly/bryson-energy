@@ -1,10 +1,7 @@
-import { https } from 'firebase-functions'
+import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import { Application } from 'express'
-import setupGraphqlServer from './server'
+import apiHandler from './api/index'
 
-admin.initializeApp()
+admin.initializeApp(functions.config().admin)
 
-const graphQLServer: Application = setupGraphqlServer(admin.firestore())
-
-export const api = https.onRequest(graphQLServer)
+export const api = apiHandler(admin.firestore())

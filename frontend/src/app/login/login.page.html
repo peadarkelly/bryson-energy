@@ -14,7 +14,7 @@
 
       <ion-item>
         <ion-label position="floating">Email address</ion-label>
-        <ion-input formControlName="email" required type="text"></ion-input>
+        <ion-input id="email" formControlName="email" required type="text"></ion-input>
       </ion-item>
     </div>
 
@@ -25,11 +25,11 @@
 
       <ion-item>
         <ion-label position="floating">Password</ion-label>
-        <ion-input formControlName="password" required type="password"></ion-input>
+        <ion-input id="password" formControlName="password" required type="password"></ion-input>
       </ion-item>
     </div>
 
-    <ion-button type="submit" expand="block">Sign in</ion-button>
+    <ion-button id="sign-in" type="submit" expand="block">Sign in</ion-button>
   </form>
 
   <ion-button href="/register/details" routerDirection="forward" fill="clear" class="center btn-link">Sign up for free</ion-button>
