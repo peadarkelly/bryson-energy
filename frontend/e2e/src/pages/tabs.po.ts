@@ -1,13 +1,13 @@
-import { by, element, browser, protractor } from 'protractor'
+import { by, element, browser } from 'protractor'
+import BasePage from './basePage.po'
 
-class TabsPage {
+class TabsPage extends BasePage {
   navigateTo() {
     return browser.get('/')
   }
 
   waitForPageToLoad() {
-    const until = protractor.ExpectedConditions
-    return browser.wait(until.presenceOf(element(by.id('tab-button-account'))), 10000, 'Element taking too long to appear in the DOM')
+    return super.waitForElement('tab-button-account')
   }
 
   clickAccount() {

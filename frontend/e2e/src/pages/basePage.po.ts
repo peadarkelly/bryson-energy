@@ -7,7 +7,7 @@ export default abstract class BasePage {
     return browser.wait(until.presenceOf(element(by.id(id))), 10000, 'Element taking too long to appear in the DOM')
   }
 
-  protected enterValue(id: string, value: string) {
+  protected enterValue(id: string, value: number | string) {
     const el = element(by.id(id))
     el.click()
     return el.sendKeys(value)

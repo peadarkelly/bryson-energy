@@ -1,9 +1,9 @@
-import { by, element, protractor, browser } from 'protractor'
+import { by, element } from 'protractor'
+import BasePage from './basePage.po'
 
-class AccountPage {
+class AccountPage extends BasePage {
   waitForPageToLoad() {
-    const until = protractor.ExpectedConditions
-    return browser.wait(until.presenceOf(element(by.id('sign-out'))), 10000, 'Element taking too long to appear in the DOM')
+    return super.waitForElement('sign-out')
   }
 
   clickSignOut() {

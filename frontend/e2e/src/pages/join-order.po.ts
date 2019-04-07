@@ -1,15 +1,13 @@
 import { browser, by, element, protractor } from 'protractor'
+import BasePage from './basePage.po'
 
-class JoinOrderPage {
+class JoinOrderPage extends BasePage {
   waitForPageToLoad() {
-    const until = protractor.ExpectedConditions
-    return browser.wait(until.presenceOf(element(by.id('order-volume'))), 10000, 'Element taking too long to appear in the DOM')
+    return super.waitForElement('order-volume')
   }
 
   enterOrderVolume(volume: number) {
-    const el = element(by.id('order-volume'))
-    el.click()
-    return el.sendKeys(volume)
+    return super.enterValue('order-volume', volume)
   }
 
   clickJoinOrder() {

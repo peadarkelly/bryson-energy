@@ -10,4 +10,4 @@ typings/
 node_modules/
 
 # Graphql generated models
-src/models/graphql.models.ts
+src/api/models/graphql.models.ts

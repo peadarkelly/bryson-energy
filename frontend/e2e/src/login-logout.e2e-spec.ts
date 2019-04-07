@@ -3,7 +3,7 @@ import accountPage from './pages/account.po'
 import tabsPage from './pages/tabs.po'
 import { ADMIN_EMAIL, ADMIN_PASSWORD } from './cnvironment'
 
-describe('Login and ogout', () => {
+describe('Login and logout', () => {
   it('should allow the user to log in and log out of the app', () => {
     loginPage.navigateTo()
     loginPage.waitForPageToLoad()

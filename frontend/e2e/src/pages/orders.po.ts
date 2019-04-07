@@ -1,14 +1,13 @@
 import { browser, by, element, protractor } from 'protractor'
+import BasePage from './basePage.po'
 
-class OrdersPage {
+class OrdersPage extends BasePage {
   waitForPageToLoad() {
-    const until = protractor.ExpectedConditions
-    return browser.wait(until.presenceOf(element(by.id('initiate-order'))), 10000, 'Element taking too long to appear in the DOM')
+    return super.waitForElement('initiate-order')
   }
 
   waitForOrderToLoad() {
-    const until = protractor.ExpectedConditions
-    return browser.wait(until.presenceOf(element(by.id('view-order'))), 10000, 'Element taking too long to appear in the DOM')
+    return super.waitForElement('view-order')
   }
 
   clickInitiateOrder() {
