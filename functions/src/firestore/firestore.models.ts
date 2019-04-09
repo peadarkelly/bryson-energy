@@ -45,3 +45,8 @@ export interface OrderUserModel {
   cost: number
   cashback?: number
 }
+
+export interface TokenModel {
+  token: string
+  userId: string
+}

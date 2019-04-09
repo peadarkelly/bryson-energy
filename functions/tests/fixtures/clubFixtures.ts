@@ -1,5 +1,5 @@
 import { Club, ClubMember } from '../../src/api/models/graphql.models'
-import { ClubModel, ClubUserModel } from '../../src/api/models/firestore.models'
+import { ClubModel, ClubUserModel } from '../../src/firestore/firestore.models'
 
 export function generateGraphQLClub(): Club {
   return {

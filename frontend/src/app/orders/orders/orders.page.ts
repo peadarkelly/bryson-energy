@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController, AlertController, LoadingController } from '@ionic/angular'
 import { OrderSummaryGQL, OrderSummary, AddOrderGQL, AddOrder, OrderStatus } from '../../graphql/generated'
+import { NotficationsService } from '../../notifications/notifications.service'
 import { ApolloQueryResult } from 'apollo-client'
 import { Storage } from '@ionic/storage'
 import * as moment from 'moment'
@@ -25,6 +26,7 @@ export class OrdersPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private storage: Storage,
+    private notificationsService: NotficationsService,
     private getOrderSummaryGQL: OrderSummaryGQL,
     private addOrderGQL: AddOrderGQL
   ) {}
@@ -32,6 +34,7 @@ export class OrdersPage implements OnInit {
   public ngOnInit(): void {
     this.storage.get('isAdmin').then(isAdmin => this.isAdmin = isAdmin)
     this.fetchOrders()
+    this.notificationsService.getToken()
   }
 
   public ionViewDidEnter(): void {

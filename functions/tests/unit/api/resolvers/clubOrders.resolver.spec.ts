@@ -5,7 +5,7 @@ import ClubOrdersResolver from '../../../../src/api/resolvers/clubOrders.resolve
 import GraphqlMapper from '../../../../src/api/mappers/graphql.mapper'
 import { Order, Club } from '../../../../src/api/models/graphql.models'
 import { CTX, toBaseModel } from '../../../fixtures/firestoreFixtures'
-import ClubOrderDao from '../../../../src/api/daos/clubOrder.dao'
+import ClubOrderDao from '../../../../src/firestore/daos/clubOrder.dao'
 import { generateGraphQLClub } from '../../../fixtures/clubFixtures'
 import { generateGraphQLOrder, generateFirestoreClubOrder } from '../../../fixtures/orderFixtures'
 

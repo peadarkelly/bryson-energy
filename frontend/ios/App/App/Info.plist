@@ -4,8 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>FirebaseScreenReportingEnable</key>
+	<false/>
 	<key>CFBundleDisplayName</key>
-        <string>bryson-energy</string>
+	<string>bryson-energy</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

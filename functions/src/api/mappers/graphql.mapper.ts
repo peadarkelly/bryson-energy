@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import { User, Club, ClubMember, Order, OrderParticipant } from '../models/graphql.models'
-import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../models/firestore.models'
+import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../../firestore/firestore.models'
 
 @injectable()
 export default class GraphqlMapper {

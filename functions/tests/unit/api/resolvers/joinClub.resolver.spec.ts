@@ -4,14 +4,14 @@ import { mock, instance, when, verify, anything } from 'ts-mockito'
 import JoinClubResolver from '../../../../src/api/resolvers/joinClub.resolver'
 import FirestoreMapper from '../../../../src/api/mappers/firestore.mapper'
 import GraphqlMapper from '../../../../src/api/mappers/graphql.mapper'
-import UserDao from '../../../../src/api/daos/user.dao'
-import ClubDao from '../../../../src/api/daos/club.dao'
-import ClubUserDao from '../../../../src/api/daos/clubUser.dao'
+import UserDao from '../../../../src/firestore/daos/user.dao'
+import ClubDao from '../../../../src/firestore/daos/club.dao'
+import ClubUserDao from '../../../../src/firestore/daos/clubUser.dao'
 import { JoinClubMutationArgs, User } from '../../../../src/api/models/graphql.models'
 import { CTX, toBaseModel } from '../../../fixtures/firestoreFixtures'
 import { generateFirestoreClub } from '../../../fixtures/clubFixtures'
 import { generateFirestoreUser, generateGraphQLUser } from '../../../fixtures/userFixtures'
-import { UserModel } from '../../../../src/api/models/firestore.models'
+import { UserModel } from '../../../../src/firestore/firestore.models'
 
 describe('JoinClubResolver', () => {
 

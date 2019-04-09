@@ -1,12 +1,12 @@
 import { injectable } from 'inversify'
-import { Context, BaseModel, ClubOrderModel, UserModel } from '../models/firestore.models'
+import { Context, BaseModel, ClubOrderModel, UserModel } from '../../firestore/firestore.models'
 import { JoinOrderMutationArgs, Order } from '../models/graphql.models'
 import Resolver from './resolver'
 import FirestoreMapper from '../mappers/firestore.mapper'
 import GraphqlMapper from '../mappers/graphql.mapper'
-import UserDao from '../daos/user.dao'
-import ClubOrderDao from '../daos/clubOrder.dao'
-import OrderUserDao from '../daos/orderUser.dao'
+import UserDao from '../../firestore/daos/user.dao'
+import ClubOrderDao from '../../firestore/daos/clubOrder.dao'
+import OrderUserDao from '../../firestore/daos/orderUser.dao'
 
 @injectable()
 export default class JoinOrderResolver implements Resolver {

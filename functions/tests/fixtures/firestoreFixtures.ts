@@ -1,4 +1,4 @@
-import { Context, BaseModel } from '../../src/api/models/firestore.models'
+import { Context, BaseModel } from '../../src/firestore/firestore.models'
 
 export const CTX: Context = { firestore: null }
 

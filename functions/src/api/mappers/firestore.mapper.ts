@@ -1,5 +1,5 @@
 import { injectable } from 'inversify'
-import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../models/firestore.models'
+import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../../firestore/firestore.models'
 import { UserInput, OrderInput, JoinOrderInput } from '../models/graphql.models'
 
 @injectable()

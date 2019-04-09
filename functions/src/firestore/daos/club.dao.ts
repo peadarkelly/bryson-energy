@@ -1,6 +1,6 @@
 import { injectable } from 'inversify'
 import { firestore as fire } from 'firebase-admin'
-import { Context, BaseModel, ClubModel } from '../models/firestore.models'
+import { Context, BaseModel, ClubModel } from '../../firestore/firestore.models'
 import BaseDao from './base.dao'
 
 @injectable()

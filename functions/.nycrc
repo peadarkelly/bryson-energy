@@ -8,7 +8,7 @@
     "src/schema.ts",
     "src/server.ts",
     "src/types.ts",
-    "src/api/daos/**/*.ts",
+    "src/firestore/daos/**/*.ts",
     "node_modules/**/*.ts",
     "tests/*"
   ],

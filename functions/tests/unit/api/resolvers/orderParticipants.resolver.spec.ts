@@ -3,7 +3,7 @@ import { assert } from 'chai'
 import { mock, instance, when, anything } from 'ts-mockito'
 import OrderParticipantsResolver from '../../../../src/api/resolvers/orderParticipants.resolver'
 import GraphqlMapper from '../../../../src/api/mappers/graphql.mapper'
-import OrderUserDao from '../../../../src/api/daos/orderUser.dao'
+import OrderUserDao from '../../../../src/firestore/daos/orderUser.dao'
 import { OrderParticipant, Order } from '../../../../src/api/models/graphql.models';
 import { CTX, toBaseModel } from '../../../fixtures/firestoreFixtures';
 import { generateGraphQLOrder, generateFirestoreOrderUser, generateGraphQLOrderParticipant } from '../../../fixtures/orderFixtures';

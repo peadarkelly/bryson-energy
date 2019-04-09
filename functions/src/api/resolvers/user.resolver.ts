@@ -1,9 +1,9 @@
 import { injectable } from 'inversify'
 import { UserQueryArgs, User } from '../models/graphql.models'
-import { Context, BaseModel, UserModel } from '../models/firestore.models'
+import { Context, BaseModel, UserModel } from '../../firestore/firestore.models'
 import Resolver from './resolver'
 import GraphqlMapper from '../mappers/graphql.mapper'
-import UserDao from '../daos/user.dao'
+import UserDao from '../../firestore/daos/user.dao'
 
 @injectable()
 export default class UserResolver implements Resolver {

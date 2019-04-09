@@ -36,6 +36,10 @@ export class AccountPage implements OnInit {
   private async fetchUser(): Promise<void> {
     const user: string = await this.storage.get('user')
 
+    if (!user) {
+      return
+    }
+
     this.userAccountGQL.fetch({ userId: user }).subscribe(({ data }: ApolloQueryResult<UserAccount.Query>) => {
       this.account = data.user
     })
