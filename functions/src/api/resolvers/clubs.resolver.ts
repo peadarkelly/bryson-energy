@@ -1,11 +1,11 @@
 import { injectable, inject } from 'inversify'
 import { GoogleMapsClient, ClientResponse, DistanceMatrixResponse, DistanceMatrixRowElement } from '@google/maps'
 import { ClubsQueryArgs, Club } from '../models/graphql.models'
-import { Context, BaseModel, ClubModel, UserModel } from '../models/firestore.models'
+import { Context, BaseModel, ClubModel, UserModel } from '../../firestore/firestore.models'
 import Resolver from './resolver'
 import GraphqlMapper from '../mappers/graphql.mapper'
-import UserDao from '../daos/user.dao'
-import ClubDao from '../daos/club.dao'
+import UserDao from '../../firestore/daos/user.dao'
+import ClubDao from '../../firestore/daos/club.dao'
 import TYPES from '../types'
 
 @injectable()

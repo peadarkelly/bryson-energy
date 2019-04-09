@@ -3,7 +3,7 @@ import { describe, it } from 'mocha'
 import { assert } from 'chai'
 import FirestoreMapper from '../../../../src/api/mappers/firestore.mapper'
 import { User, UserInput, OrderInput, JoinOrderInput } from '../../../../src/api/models/graphql.models'
-import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../../../../src/api/models/firestore.models'
+import { UserModel, ClubModel, ClubUserModel, ClubOrderModel, OrderUserModel } from '../../../../src/firestore/firestore.models'
 import { generateGraphQLUserInput, generateGraphQLUser } from '../../../fixtures/userFixtures'
 import { generateGraphQLOrderInput, generateGraphQLJoinOrderInput } from '../../../fixtures/orderFixtures'
 

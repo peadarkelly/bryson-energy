@@ -1,5 +1,5 @@
 import { Order, OrderStatus, OrderParticipant, OrderInput, JoinOrderInput } from '../../src/api/models/graphql.models'
-import { ClubOrderModel, OrderUserModel } from '../../src/api/models/firestore.models'
+import { ClubOrderModel, OrderUserModel } from '../../src/firestore/firestore.models'
 
 export function generateGraphQLOrder(): Order {
   return {

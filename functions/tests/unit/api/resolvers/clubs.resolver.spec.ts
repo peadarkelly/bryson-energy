@@ -3,15 +3,15 @@ import { assert } from 'chai'
 import { mock, instance, when, anything } from 'ts-mockito'
 import ClubsResolver from '../../../../src/api/resolvers/clubs.resolver'
 import GraphqlMapper from '../../../../src/api/mappers/graphql.mapper'
-import UserDao from '../../../../src/api/daos/user.dao'
-import ClubDao from '../../../../src/api/daos/club.dao'
+import UserDao from '../../../../src/firestore/daos/user.dao'
+import ClubDao from '../../../../src/firestore/daos/club.dao'
 import { DistanceMatrixResponse, ClientResponse, DistanceMatrixRowElement, Distance } from '@google/maps'
 import { getGoogleClient } from '../../../fixtures/googleFixtures'
 import { CTX, toBaseModel } from '../../../fixtures/firestoreFixtures'
 import { generateFirestoreUser } from '../../../fixtures/userFixtures'
 import { generateFirestoreClub, generateGraphQLClub } from '../../../fixtures/clubFixtures'
 import { ClubsQueryArgs, Club } from '../../../../src/api/models/graphql.models'
-import { ClubModel, BaseModel } from '../../../../src/api/models/firestore.models';
+import { ClubModel, BaseModel } from '../../../../src/firestore/firestore.models';
 
 describe('ClubsResolver', () => {
 

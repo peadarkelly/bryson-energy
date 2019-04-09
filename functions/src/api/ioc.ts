@@ -23,11 +23,11 @@ import UserClubResolver from './resolvers/userClub.resolver'
 import GraphqlMapper from './mappers/graphql.mapper'
 import FirestoreMapper from './mappers/firestore.mapper'
 
-import UserDao from './daos/user.dao'
-import ClubDao from './daos/club.dao'
-import ClubUserDao from './daos/clubUser.dao'
-import ClubOrderDao from './daos/clubOrder.dao'
-import OrderUserDao from './daos/orderUser.dao'
+import UserDao from '../firestore/daos/user.dao'
+import ClubDao from '../firestore/daos/club.dao'
+import ClubUserDao from '../firestore/daos/clubUser.dao'
+import ClubOrderDao from '../firestore/daos/clubOrder.dao'
+import OrderUserDao from '../firestore/daos/orderUser.dao'
 
 const iocContainer = new Container()
 

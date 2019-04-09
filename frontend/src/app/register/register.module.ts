@@ -10,7 +10,6 @@ import { RegisterAddressPage } from './address/register-address.page'
 import { RegisterClubsPage } from './clubs/register-clubs.page'
 import { RegisterClubPage } from './club/register-club.page'
 import { AddressSearchComponent } from './address/components/address-search/address-search.component'
-import { AddressSearchService } from './address/components/address-search/address-search.service'
 
 const routes: Routes = [
   {

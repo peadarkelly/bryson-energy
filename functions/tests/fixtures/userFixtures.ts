@@ -1,5 +1,5 @@
 import { User, UserInput } from '../../src/api/models/graphql.models'
-import { UserModel } from '../../src/api/models/firestore.models'
+import { UserModel } from '../../src/firestore/firestore.models'
 
 export function generateGraphQLUser(): User {
   return {

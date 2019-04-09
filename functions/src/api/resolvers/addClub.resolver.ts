@@ -1,12 +1,12 @@
 import { injectable } from 'inversify'
-import { Context, BaseModel, UserModel, ClubModel } from '../models/firestore.models'
+import { Context, BaseModel, UserModel, ClubModel } from '../../firestore/firestore.models'
 import { AddClubMutationArgs, Club } from '../models/graphql.models'
 import Resolver from './resolver'
 import FirestoreMapper from '../mappers/firestore.mapper'
 import GraphqlMapper from '../mappers/graphql.mapper'
-import UserDao from '../daos/user.dao'
-import ClubDao from '../daos/club.dao'
-import ClubUserDao from '../daos/clubUser.dao'
+import UserDao from '../../firestore/daos/user.dao'
+import ClubDao from '../../firestore/daos/club.dao'
+import ClubUserDao from '../../firestore/daos/clubUser.dao'
 
 @injectable()
 export default class AddClubResolver implements Resolver {

@@ -1,9 +1,9 @@
 import { injectable } from 'inversify'
-import { Context, BaseModel, ClubUserModel } from '../models/firestore.models'
+import { Context, BaseModel, ClubUserModel } from '../../firestore/firestore.models'
 import { ClubMember, Club } from '../models/graphql.models'
 import Resolver from './resolver'
 import GraphqlMapper from '../mappers/graphql.mapper'
-import ClubUserDao from '../daos/clubUser.dao'
+import ClubUserDao from '../../firestore/daos/clubUser.dao'
 
 @injectable()
 export default class ClubMembersResolver implements Resolver {
